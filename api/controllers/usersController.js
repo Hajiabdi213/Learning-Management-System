@@ -40,7 +40,7 @@ export const registerAUser = async (req, res) => {
 };
 
 // USER LOGIN
-export const userLogin = async (req, res) => {
+export const userLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
   // check if the user exists
@@ -80,7 +80,8 @@ export const userLogin = async (req, res) => {
       token: token,
     });
   } catch (error) {
-    res.status(500).json(error);
+    // throw new Error("Broken");
+    return res.status(500).json(error);
   }
 };
 
@@ -106,7 +107,7 @@ export const getAllUsersByRole = async (req, res) => {
     if (users) {
       return res
         .status(200)
-        .json({ message: ` All ${role}s users are fetched`, users });
+        .json({ message: `All ${role}s are fetched`, users });
     }
     return res.status(404).json({ message: "Users are not found" });
   } catch (error) {

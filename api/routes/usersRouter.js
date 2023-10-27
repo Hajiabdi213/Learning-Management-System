@@ -1,7 +1,5 @@
-import prisma from "../lib/index.js";
 import express from "express";
 
-import bcryptjs from "bcryptjs";
 import {
   getAllUsers,
   getAllUsersByRole,
@@ -18,6 +16,5 @@ userRouter.post("/:role/signup", registerAUser);
 userRouter.post("/login", userLogin);
 userRouter.get("/get-all", authenticate, isAdmin, getAllUsers);
 userRouter.get("/:role/get-all", authenticate, isAdmin, getAllUsersByRole);
-// userRouter.get("/:id", )
 
 export default userRouter;

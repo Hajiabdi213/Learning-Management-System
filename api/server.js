@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
 import userRouter from "./routes/usersRouter.js";
+import { notFound } from "./middleware/errorHandler.js";
 const server = express();
 
 dotenv.config();
@@ -11,5 +12,7 @@ server.get("/", (req, res) => {
 
 // user
 server.use("/api/user", userRouter);
+
+server.use(notFound);
 
 export default server;
