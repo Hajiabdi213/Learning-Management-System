@@ -10,6 +10,6 @@ server.get("/", (req, res) => {
 });
 
 // user
-server.use("/api/users", userRouter);
+server.use("/api/user", userRouter);
 
 export default server;
