@@ -4,7 +4,7 @@ import Jwt from "jsonwebtoken";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 import bcryptjs from "bcryptjs";
 
-// user registration
+// USER REGISTRATION
 export const registerAUser = async (req, res) => {
   const { firstName, lastName, image, email, password, phone } = req.body;
 
@@ -39,7 +39,7 @@ export const registerAUser = async (req, res) => {
   }
 };
 
-// user login
+// USER LOGIN
 export const userLogin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -76,11 +76,23 @@ export const userLogin = async (req, res) => {
 
     // return the token
     return res.status(200).json({
-      status: true,
       message: "User logged in successfully",
       token: token,
     });
   } catch (error) {
     res.status(500).json(error);
+  }
+};
+
+// GET ALL USERS
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    if (users) {
+      return res.status(200).json({ message: "All Users Fetched", users });
+    }
+    return res.status(404).json({ message: "Users are not found" });
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
