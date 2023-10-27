@@ -96,3 +96,20 @@ export const getAllUsers = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
+// GET ALL USERS BY ROLE
+export const getAllUsersByRole = async (req, res) => {
+  const { role } = req.params;
+
+  try {
+    const users = await prisma.user.findMany({ where: { role: role } });
+    if (users) {
+      return res
+        .status(200)
+        .json({ message: ` All ${role}s users are fetched`, users });
+    }
+    return res.status(404).json({ message: "Users are not found" });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
