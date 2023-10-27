@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
-import userRouter from "./users.js";
+import userRouter from "./routes/usersRouter.js";
 const server = express();
 
 dotenv.config();

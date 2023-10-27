@@ -1,12 +1,9 @@
-import prisma from "./lib/index.js";
+import prisma from "../lib/index.js";
 import express from "express";
 
 import bcryptjs from "bcryptjs";
 
-const userRouter = express.Router();
-
-// admin signup
-userRouter.post("/admin/signup", async (req, res) => {
+export const registerAUser = async (req, res) => {
   const { firstName, lastName, image, email, password, phone } = req.body;
 
   try {
@@ -38,10 +35,4 @@ userRouter.post("/admin/signup", async (req, res) => {
   } catch (error) {
     res.status(500).json(error.message);
   }
-});
-
-// instructor signup
-
-// student signup
-
-export default userRouter;
+};
