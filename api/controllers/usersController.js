@@ -20,7 +20,7 @@ export const registerAUser = async (req, res) => {
           email,
           password: hashedPassword,
           phone,
-          role: "admin",
+          role: req.params.role, // get the role from the request parameter
         },
       });
 

@@ -9,6 +9,7 @@ server.get("/", (req, res) => {
   res.status(200).json({ message: "Hello from server" });
 });
 
-server.use("/api/user", userRouter);
+// user
+server.use("/api/users", userRouter);
 
 export default server;

@@ -7,7 +7,7 @@ import { registerAUser } from "../controllers/usersController.js";
 const userRouter = express.Router();
 
 // admin signup
-userRouter.post("/admin/signup", registerAUser);
+userRouter.post("/:role/signup", registerAUser);
 
 // instructor signup
 
