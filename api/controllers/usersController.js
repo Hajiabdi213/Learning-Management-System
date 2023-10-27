@@ -7,6 +7,13 @@ import bcryptjs from "bcryptjs";
 // USER REGISTRATION
 export const registerAUser = async (req, res) => {
   const { firstName, lastName, image, email, password, phone } = req.body;
+  const { role } = req.params;
+  // check the role first (it should be student, instructor or admin)
+  if (!(role === "admin" || role === "student" || role === "instructor")) {
+    return res
+      .status(400)
+      .json({ message: "Your Registration path is not right " });
+  }
 
   try {
     // check if the user already exist or not
