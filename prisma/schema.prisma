@@ -11,16 +11,43 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  image        String   @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB0a9Vv--jOowQtVo_DNHzY7CvSizocuT8pA&usqp=CAU")
-  email        String   @unique
-  password     String
-  phone        String?
-  role         String   @default("student")
-  isBlocked    Boolean  @default(false)
-  registeredAt DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  //TODO:  enrolledCourses Course[] (enrolled courses should be listed here)
+  id              Int      @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  image           String   @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB0a9Vv--jOowQtVo_DNHzY7CvSizocuT8pA&usqp=CAU")
+  email           String   @unique
+  password        String
+  phone           String?
+  role            String   @default("student")
+  isBlocked       Boolean  @default(false)
+  registeredAt    DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  enrolledCourses Course[]
+}
+
+model CourseCategory {
+  id     Int      @id @default(autoincrement())
+  title  String   @unique
+  slug   String
+  Course Course[]
+}
+
+model Course {
+  id          Int              @id @default(autoincrement())
+  title       String           @unique
+  slug        String
+  description String?
+  image       String?
+  price       Decimal
+  paid        Boolean
+  totalHours  String?
+  enrolls     String
+  isFeatured  Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @default(now())
+  categoryId  Int?
+  category    CourseCategory[]
+  userId      Int?
+  User        User[]
+  //TODO:  sections    Section[]  => Course sections or modules 
 }

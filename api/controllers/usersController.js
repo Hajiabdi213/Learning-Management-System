@@ -4,7 +4,7 @@ import Jwt from "jsonwebtoken";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 import bcryptjs from "bcryptjs";
 
-// USER REGISTRATION
+//-------------------------- USER REGISTRATION---------------------------------
 export const registerAUser = async (req, res) => {
   const { firstName, lastName, image, email, password, phone } = req.body;
   const { role } = req.params;
@@ -46,7 +46,7 @@ export const registerAUser = async (req, res) => {
   }
 };
 
-// USER LOGIN
+// --------------------------- USER LOGIN ---------------------------------
 export const userLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -92,7 +92,7 @@ export const userLogin = async (req, res, next) => {
   }
 };
 
-// GET ALL USERS
+// ---------------------------- GET ALL USERS ------------------------------
 export const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
@@ -105,7 +105,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// GET ALL USERS BY ROLE
+//----------------------- GET ALL USERS BY ROLE -------------------------------
 export const getAllUsersByRole = async (req, res) => {
   const { role } = req.params;
 
