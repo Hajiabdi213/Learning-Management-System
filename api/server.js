@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/usersRouter.js";
 import { notFound } from "./middleware/errorHandler.js";
 import courseRouter from "./routes/courseRouter.js";
+import sectionsRouter from "./routes/sectionsRouter.js";
 const server = express();
 
 dotenv.config();
@@ -14,6 +15,7 @@ server.get("/", (req, res) => {
 // routes
 server.use("/api/user", userRouter);
 server.use("/api/course", courseRouter);
+server.use("/api/section", sectionsRouter);
 
 server.use(notFound);
 

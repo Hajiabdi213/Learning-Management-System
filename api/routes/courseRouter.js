@@ -3,7 +3,7 @@ import {
   createCourse,
   enrollCourse,
   getAllCourses,
-  getSpecificRouter,
+  getSpecificCourse,
 } from "../controllers/courseController.js";
 import { authenticate } from "../middleware/authenticate.js";
 const courseRouter = express.Router();
@@ -13,7 +13,7 @@ courseRouter.post("/create", createCourse);
 
 // all get endpoints
 courseRouter.get("/get-all", getAllCourses);
-courseRouter.get("/:slug", getSpecificRouter);
+courseRouter.get("/:slug", getSpecificCourse);
 
 // Enroll Course
 courseRouter.put("/:slug/enroll", authenticate, enrollCourse);

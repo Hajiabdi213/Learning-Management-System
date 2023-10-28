@@ -49,5 +49,29 @@ model Course {
   category    CourseCategory[]
   userId      Int?
   User        User[]
-  //TODO:  sections    Section[]  => Course sections or modules 
+  sections    Section[]
+}
+
+model Section {
+  id        Int      @id @default(autoincrement())
+  courseId  Int
+  title     String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons   Lesson[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lesson {
+  id           Int      @id @default(autoincrement())
+  sectionId    Int
+  source       String
+  free_preview Boolean
+  title        String
+  type         String
+  duration     String
+  section      Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  video_link   String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

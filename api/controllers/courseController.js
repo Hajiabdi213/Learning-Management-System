@@ -1,9 +1,18 @@
+import slugify from "slugify";
 import prisma from "../lib/index.js";
 
 //! Add New Course
 export const createCourse = async (req, res) => {
   try {
-    const newCourse = await prisma.course.create({ data: req.body });
+    const { slug, title, ...userInput } = req.body;
+    const formattedSlug = slugify(title).toLowerCase();
+    const newCourse = await prisma.course.create({
+      data: {
+        ...userInput,
+        title,
+        slug: formattedSlug,
+      },
+    });
     return res
       .status(200)
       .json({ message: "Course created successfully", newCourse });
@@ -19,24 +28,29 @@ export const createCourse = async (req, res) => {
 
 export const getAllCourses = async (req, res) => {
   try {
-    const courses = await prisma.course.findMany();
+    const courses = await prisma.course.findMany({
+      include: { sections: true },
+    });
     if (courses) {
       return res.status(200).json({ message: "All courses Fetched", courses });
     }
     return res.status(404).json({ message: "courses are not found" });
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ error: error.message });
   }
 };
 
-//!-----------------------Get Specific  Course ---------------------
+// !-----------------------Get Specific  Course ---------------------
 
-export const getSpecificRouter = async (req, res) => {
+export const getSpecificCourse = async (req, res) => {
   const { slug } = req.params;
   try {
     const course = await prisma.course.findUnique({
       where: {
         slug,
+      },
+      include: {
+        sections: true,
       },
     });
     // check if the course was found or not
@@ -48,7 +62,7 @@ export const getSpecificRouter = async (req, res) => {
       .status(200)
       .json({ message: `Course ${slug} was successfully found`, course });
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json(error.message);
   }
 };
 
