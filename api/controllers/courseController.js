@@ -52,4 +52,39 @@ export const getSpecificRouter = async (req, res) => {
   }
 };
 
+// TODO: ----------------ENROLL COURSE----------
+// Course Enrollment
+export const enrollCourse = async (req, res) => {
+  // get the email of the logged in user
+  const { slug } = req.params;
+  const { email } = req.decoded;
+  try {
+    // get the course
+    const course = await prisma.course.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    // Update the user Enrolled Courses and add the new Course
+    const user = await prisma.user.update({
+      where: { email },
+      data: {
+        enrolledCourses: {
+          connect: {
+            id: course.id,
+          },
+        },
+      },
+      // include the enrolled courses in the response
+      include: {
+        enrolledCourses: true,
+      },
+    });
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
 //TODO: ------------------ Update Specific Course
