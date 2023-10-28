@@ -34,14 +34,14 @@ model CourseCategory {
 
 model Course {
   id          Int              @id @default(autoincrement())
-  title       String           @unique
-  slug        String
+  title       String
+  slug        String           @unique
   description String?
   image       String?
   price       Decimal
   paid        Boolean
   totalHours  String?
-  enrolls     String
+  enrolls     Int
   isFeatured  Boolean          @default(false)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @default(now())
