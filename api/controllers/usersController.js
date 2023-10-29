@@ -224,3 +224,23 @@ export const unBlockAUser = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//! -------------DELETE A USER -----------
+export const deleteAUser = async (req, res) => {
+  try {
+    const user = await prisma.user.delete({
+      where: { id: Number(req.params.id) },
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with the ID ${req.params.id} was not found` });
+    }
+
+    return res.status(200).json({
+      message: `user with the id ${req.params.id} deleted successfully`,
+    });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
