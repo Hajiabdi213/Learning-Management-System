@@ -95,7 +95,14 @@ export const userLogin = async (req, res, next) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
-      include: { enrolledCourses: true },
+      include: {
+        enrolledCourses: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
     });
     if (users) {
       return res.status(200).json({ message: "All Users Fetched", users });
