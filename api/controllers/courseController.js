@@ -1,7 +1,7 @@
 import slugify from "slugify";
 import prisma from "../lib/index.js";
 
-//! Add New Course
+//! ---------------------Add New Course------------------
 export const createCourse = async (req, res) => {
   try {
     const { slug, title, ...userInput } = req.body;
@@ -101,4 +101,41 @@ export const enrollCourse = async (req, res) => {
   }
 };
 
-//TODO: ------------------ Update Specific Course
+//! ----------------- Update Specific Course-----------------------
+
+export const updateACourse = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const course = await prisma.course.update({
+      where: { slug },
+      data: req.body,
+    });
+
+    if (!course) {
+      return res.status(404).json({ message: `Course ${slug} was not found` });
+    }
+    return res.status(200).json({
+      message: `Course ${slug} has been updated successfully`,
+      course,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+//!--------------------DELETE A COURSE------------------------
+export const deleteACourse = async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const course = await prisma.course.delete({ where: { slug } });
+    if (!course) {
+      return res.status(404).json({ message: "User was not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: `Course ${slug} has been deleted successfully` });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
