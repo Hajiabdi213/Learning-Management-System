@@ -5,6 +5,7 @@ import {
   getAllUsersByRole,
   registerAUser,
   updateLoggedInUserProfile,
+  updateUserById,
   userLogin,
 } from "../controllers/usersController.js";
 import { authenticate } from "../middleware/authenticate.js";
@@ -18,5 +19,6 @@ userRouter.post("/login", userLogin);
 userRouter.get("/", authenticate, isAdmin, getAllUsers);
 userRouter.get("/:role", authenticate, isAdmin, getAllUsersByRole);
 userRouter.put("/update", authenticate, updateLoggedInUserProfile);
+userRouter.put("/:id", authenticate, isAdmin, updateUserById);
 
 export default userRouter;

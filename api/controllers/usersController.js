@@ -145,8 +145,28 @@ export const updateLoggedInUserProfile = async (req, res) => {
         .json({ message: "user profile updated successfully", user });
     }
 
-    return res.status(404).json;
+    return res.status(404).json({ message: "user was not found" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+//!--------------- UPDATE USER BY USING USER'S ID---------
+export const updateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // get and update the user
+    const user = await prisma.user.update({
+      where: { id: Number(id) },
+      data: req.body,
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with the id ${id} was  not found` });
+    }
+    res.status(200).json({ message: "user updated successfully", user });
+  } catch (error) {
+    return res.status(500).json(error.message);
   }
 };
