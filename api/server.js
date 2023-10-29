@@ -13,7 +13,7 @@ server.get("/", (req, res) => {
 });
 
 // routes
-server.use("/api/user", userRouter);
+server.use("/api/users", userRouter);
 server.use("/api/course", courseRouter);
 server.use("/api/section", sectionsRouter);
 

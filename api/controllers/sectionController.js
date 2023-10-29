@@ -10,7 +10,7 @@ export const getAllSections = async (req, res) => {
     });
     res.status(200).json(sections);
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json(error.message);
   }
 };
 
@@ -49,27 +49,27 @@ export const createASection = async (req, res) => {
     }
     res.status(201).json(section);
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json(error.message);
   }
 };
-// // UPDATE section
-// router.put("/:sectionId", async (req, res) => {
-//   try {
-//     const section = await prisma.section.update({
-//       where: {
-//         id: Number(req.params.sectionId),
-//       },
-//       data: req.body,
-//     });
+//!--------------- Update a Section----------------
+export const updateASection = async (req, res) => {
+  try {
+    const section = await prisma.section.update({
+      where: {
+        id: Number(req.params.sectionId),
+      },
+      data: req.body,
+    });
 
-//     if (!section) {
-//       res.status(400).json({ message: "Something is wrong!" });
-//     }
-//     res.status(201).json(section);
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
+    if (!section) {
+      res.status(400).json({ message: "Something is wrong!" });
+    }
+    res.status(201).json(section);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
 // //DELETE section
 // router.delete("/:sectionId", async (req, res) => {
@@ -87,4 +87,4 @@ export const createASection = async (req, res) => {
 //   } catch (error) {
 //     console.log(error.message);
 //   }
-// });
+// })

@@ -1,5 +1,4 @@
 import prisma from "../lib/index.js";
-
 import Jwt from "jsonwebtoken";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 import bcryptjs from "bcryptjs";
@@ -75,7 +74,7 @@ export const userLogin = async (req, res, next) => {
         email: user.email,
         image: user.image,
         role: user.role,
-        //TODO: courses:user.courses (show the courses in which the user enrolled)
+        enrolledCourses: user.enrolledCourses,
       },
       JWT_SECRET_KEY,
       { expiresIn: "1d" }
@@ -121,5 +120,33 @@ export const getAllUsersByRole = async (req, res) => {
     return res.status(404).json({ message: "Users are not found" });
   } catch (error) {
     return res.status(500).json(error);
+  }
+};
+
+//! ------------UPDATE LOGGED IN USER PROFILE -----------
+export const updateLoggedInUserProfile = async (req, res) => {
+  const { email, role } = req.decoded;
+  const { firstName, lastName, password } = req.body;
+  const hashedPassword = await bcryptjs.hash(password, 10);
+
+  try {
+    const user = await prisma.user.update({
+      where: { email },
+      data: {
+        firstName,
+        lastName,
+        password: hashedPassword,
+        role: role,
+      },
+    });
+    if (user) {
+      return res
+        .status(200)
+        .json({ message: "user profile updated successfully", user });
+    }
+
+    return res.status(404).json;
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
