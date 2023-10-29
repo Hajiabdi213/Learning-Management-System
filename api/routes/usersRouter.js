@@ -1,9 +1,11 @@
 import express from "express";
 
 import {
+  blockAUser,
   getAllUsers,
   getAllUsersByRole,
   registerAUser,
+  unBlockAUser,
   updateLoggedInUserProfile,
   updateUserById,
   userLogin,
@@ -20,5 +22,7 @@ userRouter.get("/", authenticate, isAdmin, getAllUsers);
 userRouter.get("/:role", authenticate, isAdmin, getAllUsersByRole);
 userRouter.put("/update", authenticate, updateLoggedInUserProfile);
 userRouter.put("/:id", authenticate, isAdmin, updateUserById);
+userRouter.put("/:id/block", authenticate, isAdmin, blockAUser);
+userRouter.put("/:id/un-block", authenticate, isAdmin, unBlockAUser);
 
 export default userRouter;

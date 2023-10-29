@@ -170,3 +170,57 @@ export const updateUserById = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
+//! ------------------ BLOCK A USER----------------
+export const blockAUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.update({
+      where: { id: Number(id) },
+      data: {
+        isBlocked: true,
+      },
+    });
+    // if user doesn't exist
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with the id ${id} was not found` });
+    }
+
+    return res.status(200).json({
+      message: `User with the id ${id} has been blocked successfully`,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+};
+
+//! -------------   UNBLOCK A USER-------------------
+export const unBlockAUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.update({
+      where: { id: Number(id) },
+      data: {
+        isBlocked: false,
+      },
+    });
+    // if user doesn't exist
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with the id ${id} was not found` });
+    }
+
+    return res.status(200).json({
+      message: `User with the id ${id} has been unblocked successfully`,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
