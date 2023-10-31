@@ -23,6 +23,7 @@ model User {
   registeredAt    DateTime @default(now())
   updatedAt       DateTime @updatedAt
   enrolledCourses Course[]
+  myCourses       Course[] @relation("CreatedByUser") // Courses that the user (instructor) created
 }
 
 model CourseCategory {
@@ -33,23 +34,25 @@ model CourseCategory {
 }
 
 model Course {
-  id          Int              @id @default(autoincrement())
-  title       String
-  slug        String           @unique
-  description String?
-  image       String?
-  price       Decimal
-  paid        Boolean
-  totalHours  String?
-  enrolls     Int
-  isFeatured  Boolean          @default(false)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @default(now())
-  categoryId  Int?
-  category    CourseCategory[]
-  userId      Int?
-  User        User[]
-  sections    Section[]
+  id           Int              @id @default(autoincrement())
+  title        String
+  slug         String           @unique
+  description  String?
+  image        String?
+  price        Decimal
+  paid         Boolean
+  totalHours   String?
+  enrolls      Int
+  isFeatured   Boolean          @default(false)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @default(now())
+  categoryId   Int?
+  category     CourseCategory[]
+  userId       Int?
+  User         User[]
+  instructorId Int // Instructor ID
+  instructor   User             @relation("CreatedByUser", fields: [instructorId], references: [id]) // Relationship with the instructor
+  sections     Section[]
 }
 
 model Section {

@@ -4,13 +4,14 @@ import prisma from "../lib/index.js";
 //! ---------------------Add New Course------------------
 export const createCourse = async (req, res) => {
   try {
-    const { slug, title, ...userInput } = req.body;
+    const { slug, title, instructorId, ...userInput } = req.body;
     const formattedSlug = slugify(title).toLowerCase();
     const newCourse = await prisma.course.create({
       data: {
         ...userInput,
         title,
         slug: formattedSlug,
+        instructorId: req.decoded.id,
       },
     });
     return res
@@ -29,7 +30,16 @@ export const createCourse = async (req, res) => {
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
-      include: { sections: true },
+      include: {
+        sections: true,
+        instructor: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
     });
     if (courses) {
       return res.status(200).json({ message: "All courses Fetched", courses });
@@ -51,6 +61,13 @@ export const getSpecificCourse = async (req, res) => {
       },
       include: {
         sections: true,
+        instructor: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
     // check if the course was found or not
@@ -137,5 +154,93 @@ export const deleteACourse = async (req, res) => {
       .json({ message: `Course ${slug} has been deleted successfully` });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+//!-------------------------------  GET THE COURSES YOU'VE CREATED-----------------------
+
+export const getMyCourses = async (req, res) => {
+  const { id } = req.decoded;
+
+  try {
+    const myCourses = await prisma.course.findMany({
+      where: { instructorId: id },
+      include: { sections: true },
+    });
+    if (!myCourses) {
+      return res.status(404).json({ message: "There's no course found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Your courses found successfully", myCourses });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+//! -------------- GET THE DETAILS OF SPECIFIC COURSE YOU'VE CREATED-----------
+export const getMySpecificCourse = async (req, res) => {
+  const { id } = req.decoded;
+  const { slug } = req.params;
+  try {
+    const myCourse = await prisma.course.find({
+      where: { instructorId: id, slug },
+      include: { sections: true },
+    });
+    if (!myCourse) {
+      return res.status(404).json({ message: `Course ${slug} was not found` });
+    }
+
+    return res
+      .status(200)
+      .json({ message: `Your ${slug} course  successfully`, myCourse });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+//! --------- UPDATE SPECIFIC COURSE YOU'VE CREATED----------------
+
+export const updateMyCourse = async (req, res) => {
+  const { id } = req.decoded;
+  const { slug } = req.params;
+
+  try {
+    const myCourse = await prisma.course.update({
+      where: { instructorId: id, slug },
+      data: req.body,
+    });
+    if (!myCourse) {
+      return res.status(404).json({ message: "Course Not Found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Your course updated successfully", myCourse });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+//! ------------------ DELETE THE COURSE YOU'VE CREATED -------------------
+
+export const deleteMyCourse = async (req, res) => {
+  const { id } = req.decoded;
+  const { slug } = req.params;
+
+  try {
+    const myCourse = await prisma.course.delete({
+      where: { instructorId: id, slug },
+    });
+    if (!myCourse) {
+      return res.status(404).json({ message: "Course Not Found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "You Deleted The Course Successfully", myCourse });
+  } catch (error) {
+    return res.status(500).json({ message: error });
   }
 };
