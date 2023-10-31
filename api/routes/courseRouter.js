@@ -6,8 +6,10 @@ import {
   enrollCourse,
   getAllCourses,
   getMyCourses,
+  getMyEnrolledCourses,
   getMySpecificCourse,
   getSpecificCourse,
+  getSpecificCourseLoggedInUserEnrolled,
   updateACourse,
   updateMyCourse,
 } from "../controllers/courseController.js";
@@ -28,6 +30,12 @@ courseRouter.get("/", authenticate, getAllCourses);
 courseRouter.get("/:slug", getSpecificCourse);
 courseRouter.get("/my-courses/all", authenticate, getMyCourses);
 courseRouter.get("/my-courses/:slug", authenticate, getMySpecificCourse);
+courseRouter.get("/enrolled-courses/all", authenticate, getMyEnrolledCourses);
+courseRouter.get(
+  "/enrolled-courses/:slug",
+  authenticate,
+  getSpecificCourseLoggedInUserEnrolled
+);
 
 // all put endpoints
 courseRouter.put("/:slug/enroll", authenticate, enrollCourse); // enroll a course

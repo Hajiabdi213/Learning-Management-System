@@ -112,7 +112,9 @@ export const enrollCourse = async (req, res) => {
         enrolledCourses: true,
       },
     });
-    return res.status(200).json(user);
+    return res
+      .status(200)
+      .json({ message: `You enrolled ${slug} course`, user });
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -240,6 +242,70 @@ export const deleteMyCourse = async (req, res) => {
     return res
       .status(200)
       .json({ message: "You Deleted The Course Successfully", myCourse });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+//!-------------- GET ALL THE COURSES YOU'VE ENROLLED -------------
+export const getMyEnrolledCourses = async (req, res) => {
+  const { id } = req.decoded;
+  try {
+    const userWithCourse = await prisma.user.findMany({
+      where: { id },
+      include: {
+        enrolledCourses: {
+          include: {
+            instructor: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(userWithCourse[0].enrolledCourses);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+//! -----------------------------  GET SPECIFIC COURSE YOU'VE Enrolled  -------------------
+export const getSpecificCourseLoggedInUserEnrolled = async (req, res) => {
+  const { id } = req.decoded;
+  const { slug } = req.params;
+  try {
+    const userWithCourse = await prisma.user.findMany({
+      where: { id },
+      include: {
+        enrolledCourses: {
+          include: {
+            instructor: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (userWithCourse.length > 0) {
+      const targetCourse = userWithCourse[0].enrolledCourses.find(
+        (course) => course.slug === slug
+      );
+
+      return res.status(200).json(targetCourse);
+    }
+    return res.status(404).json({ message: `Course was not found` });
   } catch (error) {
     return res.status(500).json({ message: error });
   }
