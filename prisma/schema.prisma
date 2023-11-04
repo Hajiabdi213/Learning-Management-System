@@ -28,8 +28,8 @@ model User {
 
 model CourseCategory {
   id     Int      @id @default(autoincrement())
-  title  String   @unique
-  slug   String
+  title  String
+  slug   String   @unique
   Course Course[]
 }
 

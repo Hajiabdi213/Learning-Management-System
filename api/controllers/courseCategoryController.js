@@ -2,9 +2,13 @@ import slugify from "slugify";
 import prisma from "../lib/index.js";
 //! ---------------------Add New Course Category------------------
 export const createCourseCategory = async (req, res) => {
+  const { title } = req.body;
   try {
     const newCategory = await prisma.courseCategory.create({
-      data: req.body,
+      data: {
+        title,
+        slug: slugify(title.toLowerCase()),
+      },
     });
     return res
       .status(200)
@@ -37,12 +41,14 @@ export const getAllCourseCategories = async (req, res) => {
 
 export const getSpecificCourseCategory = async (req, res) => {
   const { slug } = req.params;
+
   try {
     const category = await prisma.courseCategory.findUnique({
       where: {
         slug,
       },
     });
+
     // check if the course was found or not
     if (!category) {
       return res
