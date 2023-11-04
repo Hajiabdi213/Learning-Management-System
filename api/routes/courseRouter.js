@@ -14,20 +14,19 @@ import {
   updateMyCourse,
 } from "../controllers/courseController.js";
 import { authenticate } from "../middleware/authenticate.js";
-import { isAdmin, isInstructor } from "../middleware/roleAuth.js";
+import {
+  isAdmin,
+  isAdminOrInstructor,
+  isInstructor,
+} from "../middleware/roleAuth.js";
 const courseRouter = express.Router();
 
 // all post endpoints
-courseRouter.post(
-  "/create",
-  authenticate,
-  isAdmin || isInstructor,
-  createCourse
-);
+courseRouter.post("/create", authenticate, isAdminOrInstructor, createCourse);
 
 // all get endpoints
-courseRouter.get("/", authenticate, getAllCourses);
-courseRouter.get("/:slug", getSpecificCourse);
+courseRouter.get("/", authenticate, isAdmin, getAllCourses); // only admin
+courseRouter.get("/:slug", authenticate, isAdmin, getSpecificCourse); // only admin
 courseRouter.get("/my-courses/all", authenticate, getMyCourses);
 courseRouter.get("/my-courses/:slug", authenticate, getMySpecificCourse);
 courseRouter.get("/enrolled-courses/all", authenticate, getMyEnrolledCourses);
@@ -45,7 +44,7 @@ courseRouter.put("/:slug", authenticate, isAdmin, updateACourse);
 courseRouter.put(
   "/my-courses/:slug",
   authenticate,
-  isAdmin || isInstructor,
+  isAdminOrInstructor,
   updateMyCourse
 );
 
@@ -54,7 +53,7 @@ courseRouter.delete("/:slug", authenticate, isAdmin, deleteACourse);
 courseRouter.delete(
   "/my-courses/:slug",
   authenticate,
-  isAdmin || isInstructor,
+  isAdminOrInstructor,
   deleteMyCourse
 );
 export default courseRouter;

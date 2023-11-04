@@ -3,7 +3,7 @@ import Jwt from "jsonwebtoken";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 import bcryptjs from "bcryptjs";
 
-//-------------------------- USER REGISTRATION---------------------------------
+//! -------------------------- USER REGISTRATION---------------------------------
 export const registerAUser = async (req, res) => {
   const { firstName, lastName, image, email, password, phone } = req.body;
   const { role } = req.params;
@@ -45,7 +45,7 @@ export const registerAUser = async (req, res) => {
   }
 };
 
-// --------------------------- USER LOGIN ---------------------------------
+//! --------------------------- USER LOGIN ---------------------------------
 export const userLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -102,6 +102,7 @@ export const getAllUsers = async (req, res) => {
             title: true,
           },
         },
+        myCourses: true,
       },
     });
     if (users) {

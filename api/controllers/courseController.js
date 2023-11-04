@@ -185,13 +185,16 @@ export const getMyCourses = async (req, res) => {
 export const getMySpecificCourse = async (req, res) => {
   const { id } = req.decoded;
   const { slug } = req.params;
+
   try {
-    const myCourse = await prisma.course.find({
+    const myCourse = await prisma.course.findUnique({
       where: { instructorId: id, slug },
       include: { sections: true },
     });
     if (!myCourse) {
-      return res.status(404).json({ message: `Course ${slug} was not found` });
+      return res.status(404).json({
+        message: `Course ${slug} was not found or it is not a course you own`,
+      });
     }
 
     return res

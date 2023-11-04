@@ -8,18 +8,49 @@ import {
   getSpecificCourseSection,
   updateASection,
 } from "../controllers/sectionController.js";
+import {
+  isAdmin,
+  isAdminOrCourseCreator,
+  isAdminOrInstructor,
+  isCourseCreator,
+} from "../middleware/roleAuth.js";
 const sectionsRouter = express.Router();
 
 // All Get Routes
-sectionsRouter.get("/:course_slug/sections", getAllCourseSections);
-sectionsRouter.get("/:course_slug/sections/:id", getSpecificCourseSection);
+sectionsRouter.get(
+  "/:course_slug/sections",
+  authenticate,
+  isAdminOrCourseCreator,
+  getAllCourseSections
+);
+sectionsRouter.get(
+  "/:course_slug/sections/:id",
+  authenticate,
+  isAdminOrCourseCreator,
+  getSpecificCourseSection
+);
 
 // POST ROUTES
-sectionsRouter.post("/:course_slug/sections", createASection);
+sectionsRouter.post(
+  "/:course_slug/sections",
+  authenticate,
+  isAdminOrCourseCreator,
+  createASection
+);
 
 // PUT ROUTES
-sectionsRouter.put("/:course_slug/sections/:id", updateASection);
+sectionsRouter.put(
+  "/:course_slug/sections/:id",
+  authenticate,
+  isAdminOrCourseCreator,
+  updateASection
+);
 
 // DELETE ROUTES
-sectionsRouter.delete("/:course_slug/sections/:id", deleteASection);
+sectionsRouter.delete(
+  "/:course_slug/sections/:id",
+  authenticate,
+  isAdminOrCourseCreator,
+  deleteASection
+);
 export default sectionsRouter;
