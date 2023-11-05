@@ -65,6 +65,11 @@ export const getSpecificCourseSection = async (req, res) => {
         sections: true,
       },
     });
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course ${course_slug} was not found` });
+    }
 
     // get the section
     const section = course.sections.find(
@@ -96,6 +101,11 @@ export const updateASection = async (req, res) => {
       },
     });
 
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course ${course_slug} was not found` });
+    }
     const section = course.sections.find(
       (section) => section.id === Number(id)
     );
@@ -133,6 +143,11 @@ export const deleteASection = async (req, res) => {
       },
     });
 
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course ${course_slug} was not found` });
+    }
     const section = course.sections.find(
       (section) => section.id === Number(id)
     );
@@ -144,12 +159,13 @@ export const deleteASection = async (req, res) => {
     }
 
     // update the section
-    const updatedSection = await prisma.section.delete({
+    const targetSection = await prisma.section.delete({
       where: { id: Number(id) },
     });
-    res
-      .status(200)
-      .json({ message: `Section with the id ${id} was deleted successfully` });
+    res.status(200).json({
+      message: `Section with the id ${id} was deleted successfully`,
+      targetSection,
+    });
   } catch (error) {
     res.status(500).json(error.message);
   }

@@ -296,6 +296,11 @@ export const getSpecificCourseLoggedInUserEnrolled = async (req, res) => {
                 image: true,
               },
             },
+            sections: {
+              include: {
+                lessons: true,
+              },
+            },
           },
         },
       },

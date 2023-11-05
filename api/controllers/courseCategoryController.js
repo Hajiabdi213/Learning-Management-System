@@ -64,3 +64,75 @@ export const getSpecificCourseCategory = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
+//! -------------------- UPDATE CATEGORY --------------------------
+
+export const updateSpecificCategory = async (req, res) => {
+  const { slug } = req.params;
+  const { title } = req.body;
+
+  try {
+    const category = await prisma.courseCategory.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    // check if the course was found or not
+    if (!category) {
+      return res
+        .status(404)
+        .json({ message: `course category ${slug} was not found` });
+    }
+
+    const updatedCategory = await prisma.courseCategory.update({
+      where: {
+        slug,
+      },
+      data: {
+        title,
+        slug: slugify(title.toLowerCase()),
+      },
+    });
+    return res.status(200).json({
+      message: `course category updated successfully`,
+      updatedCategory,
+    });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+// !----------------------- DELETE A CATEGORY -----------------
+
+export const deleteACategory = async (req, res) => {
+  const { slug } = req.params;
+  const { title } = req.body;
+
+  try {
+    const category = await prisma.courseCategory.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    // check if the course was found or not
+    if (!category) {
+      return res
+        .status(404)
+        .json({ message: `course category ${slug} was not found` });
+    }
+
+    const targetCategory = await prisma.courseCategory.delete({
+      where: {
+        slug,
+      },
+    });
+    return res.status(200).json({
+      message: `course category deleted successfully`,
+      targetCategory,
+    });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
