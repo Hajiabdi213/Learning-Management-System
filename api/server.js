@@ -6,6 +6,7 @@ import courseRouter from "./routes/courseRouter.js";
 import sectionsRouter from "./routes/sectionsRouter.js";
 import courseCategoryRouter from "./routes/courseCategoryRouter.js";
 import lessonsRouter from "./routes/lessonsRouter.js";
+import assessmentsRouter from "./routes/assessmentRouter.js";
 const server = express();
 
 dotenv.config();
@@ -20,6 +21,7 @@ server.use("/api/courses", courseRouter);
 server.use("/api", sectionsRouter);
 server.use("/api/categories", courseCategoryRouter);
 server.use("/api/", lessonsRouter);
+server.use("/api/", assessmentsRouter);
 
 server.use(notFound);
 
