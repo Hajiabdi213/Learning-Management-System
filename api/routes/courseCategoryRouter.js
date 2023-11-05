@@ -6,7 +6,7 @@ import {
   getSpecificCourseCategory,
   updateSpecificCategory,
 } from "../controllers/courseCategoryController.js";
-import { isAdminOrInstructor } from "../middleware/roleAuth.js";
+import { isAdminOrInstructor } from "../middleware/authorizationMiddleware.js";
 import { authenticate } from "../middleware/authenticate.js";
 const courseCategoryRouter = express.Router();
 

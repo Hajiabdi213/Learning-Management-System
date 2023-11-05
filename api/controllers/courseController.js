@@ -31,7 +31,12 @@ export const getAllCourses = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
       include: {
-        sections: true,
+        sections: {
+          select: {
+            lessons: true,
+            assessments: true,
+          },
+        },
         instructor: {
           select: {
             id: true,
@@ -50,7 +55,7 @@ export const getAllCourses = async (req, res) => {
   }
 };
 
-// !-----------------------Get Specific  Course ---------------------
+//! -----------------------Get Specific  Course ---------------------
 
 export const getSpecificCourse = async (req, res) => {
   const { slug } = req.params;
@@ -60,7 +65,12 @@ export const getSpecificCourse = async (req, res) => {
         slug,
       },
       include: {
-        sections: true,
+        sections: {
+          select: {
+            lessons: true,
+            assessments: true,
+          },
+        },
         instructor: {
           select: {
             id: true,
@@ -299,6 +309,7 @@ export const getSpecificCourseLoggedInUserEnrolled = async (req, res) => {
             sections: {
               include: {
                 lessons: true,
+                assessments: true,
               },
             },
           },

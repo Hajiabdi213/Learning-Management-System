@@ -7,7 +7,8 @@ import {
   isAdminOrCourseCreator,
   isAdminOrInstructor,
   isCourseCreator,
-} from "../middleware/roleAuth.js";
+} from "../middleware/authorizationMiddleware.js";
+import { isCourseCreatorOrAdminOrEnrolled } from "../middleware/authorizationMiddleware.js";
 import {
   createAssessment,
   deleteAssessment,
@@ -21,13 +22,13 @@ const assessmentsRouter = express.Router();
 assessmentsRouter.get(
   "/:course_slug/:section_id/assessments",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getAllAssessmentsOfSection
 );
 assessmentsRouter.get(
   "/:course_slug/:section_id/assessments/:assessment_id",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getSpecificAssessment
 );
 

@@ -68,27 +68,51 @@ export const isAdminOrCourseCreator = async (req, res, next) => {
 };
 
 export const isEnrolled = async (req, res, next) => {
+  const { email } = req.decoded;
+  const { course_slug } = req.params;
+
+  // Check if the user is enrolled in the specified course
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: {
+      enrolledCourses: {
+        where: { slug: course_slug },
+      },
+    },
+  });
+
+  if (!user || user.enrolledCourses.length === 0) {
+    res.status(401).json({ message: "You are not enrolled in this course" });
+  } else {
+    next();
+  }
+};
+
+export const isCourseCreatorOrAdminOrEnrolled = async (req, res, next) => {
   const { email, id } = req.decoded;
   const { course_slug } = req.params;
 
-  // check if the user is the owner of this course
+  // Check if the user is the owner of this course
   const course = await prisma.course.findUnique({
-    where: { slug: course_slug, userId: id },
+    where: { slug: course_slug, instructorId: id },
   });
 
-  if (course) {
-    return console.log("You are enrolled this course");
-  } else {
-    return console.log("You are not enrolled this course");
-  }
-  // check
+  // Check if the user is an admin
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user.role === "admin" || course !== null) {
+  // Check if the user is enrolled in the specified course
+  const enrolled = await prisma.user.findFirst({
+    where: {
+      email,
+      enrolledCourses: {
+        some: { slug: course_slug },
+      },
+    },
+  });
+
+  if (user.role === "admin" || course !== null || enrolled !== null) {
     next();
   } else {
-    res
-      .status(401)
-      .json({ message: "You are neither the course creator nor admin" });
+    res.status(401).json({ message: "Unauthorized access" });
   }
 };

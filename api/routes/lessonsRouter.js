@@ -7,7 +7,7 @@ import {
   isAdminOrCourseCreator,
   isAdminOrInstructor,
   isCourseCreator,
-} from "../middleware/roleAuth.js";
+} from "../middleware/authorizationMiddleware.js";
 import {
   createALesson,
   deleteALesson,

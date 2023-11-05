@@ -12,7 +12,7 @@ import {
   userLogin,
 } from "../controllers/usersController.js";
 import { authenticate } from "../middleware/authenticate.js";
-import { isAdmin } from "../middleware/roleAuth.js";
+import { isAdmin } from "../middleware/authorizationMiddleware.js";
 
 const userRouter = express.Router();
 

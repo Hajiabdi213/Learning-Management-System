@@ -11,8 +11,6 @@ export const getAllAssessmentsOfSection = async (req, res) => {
       },
     });
 
-    console.log("course", course);
-
     //check the course if it exists
     if (!course) {
       return res
@@ -38,8 +36,6 @@ export const getAllAssessmentsOfSection = async (req, res) => {
         message: `Section with the id ${section_id} does not exist in ${course_slug}`,
       });
     }
-
-    console.log("section", section);
 
     const assessments = section.assessments;
 
@@ -272,7 +268,6 @@ export const deleteAssessment = async (req, res) => {
       });
     }
 
-    const { id, sectionId } = req.body;
     const targetAssessment = await prisma.assessment.delete({
       where: { id: Number(assessment_id) },
     });

@@ -13,7 +13,7 @@ import {
   isAdminOrCourseCreator,
   isAdminOrInstructor,
   isCourseCreator,
-} from "../middleware/roleAuth.js";
+} from "../middleware/authorizationMiddleware.js";
 const sectionsRouter = express.Router();
 
 // All Get Routes

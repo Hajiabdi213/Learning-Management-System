@@ -18,7 +18,7 @@ import {
   isAdmin,
   isAdminOrInstructor,
   isInstructor,
-} from "../middleware/roleAuth.js";
+} from "../middleware/authorizationMiddleware.js";
 const courseRouter = express.Router();
 
 // all post endpoints
