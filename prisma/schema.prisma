@@ -56,13 +56,14 @@ model Course {
 }
 
 model Section {
-  id        Int      @id @default(autoincrement())
-  courseId  Int
-  title     String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  lessons   Lesson[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int          @id @default(autoincrement())
+  courseId   Int
+  title      String
+  course     Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons    Lesson[]
+  assesments Assessment[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 model Lesson {
@@ -77,4 +78,17 @@ model Lesson {
   video_link   String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Assessment {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  link        String // this link is about the work that the user did
+  date        DateTime
+  score       Int
+  sectionId   Int
+  section     Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
