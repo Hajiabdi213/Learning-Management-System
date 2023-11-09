@@ -58,7 +58,7 @@ export const isAdminOrCourseCreator = async (req, res, next) => {
   // check
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user.role === "admin" || course !== null) {
+  if (user.role === "admin" || course !== null || !user.isBlocked) {
     next();
   } else {
     res
@@ -81,7 +81,7 @@ export const isEnrolled = async (req, res, next) => {
     },
   });
 
-  if (!user || user.enrolledCourses.length === 0) {
+  if (!user || user.enrolledCourses.length === 0 || user.isBlocked) {
     res.status(401).json({ message: "You are not enrolled in this course" });
   } else {
     next();
@@ -110,7 +110,12 @@ export const isCourseCreatorOrAdminOrEnrolled = async (req, res, next) => {
     },
   });
 
-  if (user.role === "admin" || course !== null || enrolled !== null) {
+  if (
+    user.role === "admin" ||
+    course !== null ||
+    enrolled !== null ||
+    user.isBlocked
+  ) {
     next();
   } else {
     res.status(401).json({ message: "Unauthorized access" });
