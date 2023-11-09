@@ -26,11 +26,7 @@ export const getAllAssessmentsOfSection = async (req, res) => {
         id: Number(section_id),
       },
       include: {
-        assessments: {
-          include: {
-            submissions: true,
-          },
-        },
+        assessments: true,
       },
     });
 
@@ -132,11 +128,7 @@ export const getSpecificAssessment = async (req, res) => {
         id: Number(section_id),
       },
       include: {
-        assessments: {
-          include: {
-            submissions: true,
-          },
-        },
+        assessments: true,
       },
     });
 
@@ -464,7 +456,7 @@ export const gradeASubmission = async (req, res) => {
   }
 };
 
-//! -------------
+//! ------------- GET ALL GRADED SUBMISSIONS--------------
 export const getAllGradedSubmissions = async (req, res) => {
   try {
     const { course_slug, assessment_id } = req.params;
@@ -511,6 +503,61 @@ export const getAllGradedSubmissions = async (req, res) => {
     return res.status(200).json({
       message: `All graded submissions of ${assessment.title} assessment found`,
       gradedSubmissions,
+    });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+//!------------------- GET THE DETAILS OF WHAT YOU SUBMITTED----------------
+
+export const getMySubmissions = async (req, res) => {
+  try {
+    const { course_slug, assessment_id } = req.params;
+    const { id } = req.decoded;
+
+    const course = await prisma.course.findUnique({
+      where: {
+        slug: course_slug,
+      },
+    });
+
+    //check the course if it exists
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course ${course_slug} does not exist` });
+    }
+
+    const courseId = course.id;
+    const assessment = await prisma.assessment.findUnique({
+      where: { id: Number(assessment_id) },
+      include: {
+        submissions: {
+          where: {
+            studentId: Number(id),
+          },
+        },
+      },
+    });
+
+    if (!assessment) {
+      return res.status(404).json({
+        message: `No assessment found on the course ${course.title}`,
+      });
+    }
+
+    const submissions = assessment.submissions;
+
+    if (submissions.length < 0) {
+      return res.status(404).json({
+        message: `No submission ${assessment.title} found that you submitted`,
+      });
+    }
+
+    return res.status(200).json({
+      message: `All Your submissions of ${assessment.title} assessment `,
+      submissions,
     });
   } catch (error) {
     return res.status(500).json(error.message);

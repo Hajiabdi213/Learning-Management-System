@@ -20,6 +20,7 @@ import {
   getAllSubmissions,
   gradeASubmission,
   getAllGradedSubmissions,
+  getMySubmissions,
 } from "../controllers/assessmentController.js";
 // import {
 //   getAssessmentDetails,
@@ -53,6 +54,12 @@ assessmentsRouter.get(
   authenticate,
   isAdminOrCourseCreator,
   getAllGradedSubmissions
+);
+assessmentsRouter.get(
+  "/:course_slug/:section_id/assessments/:assessment_id/my_submissions",
+  authenticate,
+  isEnrolled,
+  getMySubmissions
 );
 
 // POST ROUTES
