@@ -25,7 +25,7 @@ export const isAdminOrInstructor = async (req, res, next) => {
   const { email } = req.decoded;
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user.role === "instructor" || user.role === "admin") {
+  if (user.role === "instructor" || user.role === "admin" || !user.isBlocked) {
     next();
   } else {
     res.status(401).json({ message: "You are neither instructor nor admin" });
