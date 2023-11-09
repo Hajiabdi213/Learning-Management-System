@@ -11,21 +11,20 @@ datasource db {
 }
 
 model User {
-  id                Int          @id @default(autoincrement())
-  firstName         String
-  lastName          String
-  image             String       @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB0a9Vv--jOowQtVo_DNHzY7CvSizocuT8pA&usqp=CAU")
-  email             String       @unique
-  password          String
-  phone             String?
-  role              String       @default("student")
-  isBlocked         Boolean      @default(false)
-  registeredAt      DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  enrolledCourses   Course[]
-  myCourses         Course[]     @relation("CreatedByUser") // Courses that the user (instructor) created
-  gradedAssessments Assessment[] @relation("GradedAssessments")
-  assessment        Assessment[] @relation("OwnedStudent")
+  id              Int          @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  image           String       @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB0a9Vv--jOowQtVo_DNHzY7CvSizocuT8pA&usqp=CAU")
+  email           String       @unique
+  password        String
+  phone           String?
+  role            String       @default("student")
+  isBlocked       Boolean      @default(false)
+  registeredAt    DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  enrolledCourses Course[]
+  myCourses       Course[]     @relation("CreatedByUser") // Courses that the user (instructor) created
+  assessment      Assessment[] @relation("OwnedStudent")
 
   submission Submission[]
 }
@@ -92,14 +91,11 @@ model Assessment {
   sectionId   Int
   section     Section      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   submissions Submission[]
-  gradedBy    User?        @relation("GradedAssessments", fields: [gradedById], references: [id])
   student     User?        @relation("OwnedStudent", fields: [studentId], references: [id])
   studentId   Int?
-  gradedById  Int?
-  gradedAt    DateTime?
-  points      Int?         @default(0)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Submission {

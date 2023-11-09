@@ -3,7 +3,9 @@ import prisma from "../lib/index.js";
 export const isAdmin = async (req, res, next) => {
   const { email } = req.decoded;
   const admin = await prisma.user.findUnique({ where: { email } });
+
   if (admin.role !== "admin") {
+    console.log("working");
     res.status(401).json({ message: "You are not an admin" });
   } else {
     next();
@@ -25,10 +27,12 @@ export const isAdminOrInstructor = async (req, res, next) => {
   const { email } = req.decoded;
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user.role === "instructor" || user.role === "admin" || !user.isBlocked) {
+  if (user.role === "instructor" || user.role === "admin") {
     next();
   } else {
-    res.status(401).json({ message: "You are neither instructor nor admin" });
+    res.status(401).json({
+      message: "You are neither instructor nor admin",
+    });
   }
 };
 
@@ -58,7 +62,7 @@ export const isAdminOrCourseCreator = async (req, res, next) => {
   // check
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user.role === "admin" || course !== null || !user.isBlocked) {
+  if (user.role === "admin" || course !== null) {
     next();
   } else {
     res
@@ -81,8 +85,10 @@ export const isEnrolled = async (req, res, next) => {
     },
   });
 
-  if (!user || user.enrolledCourses.length === 0 || user.isBlocked) {
-    res.status(401).json({ message: "You are not enrolled in this course" });
+  if (!user || user.enrolledCourses.length === 0) {
+    res.status(401).json({
+      message: "You are not enrolled in this course ",
+    });
   } else {
     next();
   }
@@ -110,12 +116,7 @@ export const isCourseCreatorOrAdminOrEnrolled = async (req, res, next) => {
     },
   });
 
-  if (
-    user.role === "admin" ||
-    course !== null ||
-    enrolled !== null ||
-    user.isBlocked
-  ) {
+  if (user.role === "admin" || course !== null || enrolled !== null) {
     next();
   } else {
     res.status(401).json({ message: "Unauthorized access" });

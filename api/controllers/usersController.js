@@ -59,6 +59,13 @@ export const userLogin = async (req, res, next) => {
         .json({ message: `User with the email ${email} does not exist` });
     }
 
+    // check if the user is blocked or not
+
+    if (user.isBlocked) {
+      return res.status(401).json({
+        message: "Your account has been blocked",
+      });
+    }
     // check if password matches
     const isPasswordMatched = await bcryptjs.compare(password, user.password);
     if (!isPasswordMatched) {
@@ -74,6 +81,7 @@ export const userLogin = async (req, res, next) => {
         email: user.email,
         image: user.image,
         role: user.role,
+        isBlocked: user.isBlocked,
         enrolledCourses: user.enrolledCourses,
       },
       JWT_SECRET_KEY,
@@ -91,7 +99,7 @@ export const userLogin = async (req, res, next) => {
   }
 };
 
-// ---------------------------- GET ALL USERS ------------------------------
+//! ---------------------------- GET ALL USERS ------------------------------
 export const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
@@ -114,7 +122,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-//----------------------- GET ALL USERS BY ROLE -------------------------------
+//!----------------------- GET ALL USERS BY ROLE -------------------------------
 export const getAllUsersByRole = async (req, res) => {
   const { role } = req.params;
 

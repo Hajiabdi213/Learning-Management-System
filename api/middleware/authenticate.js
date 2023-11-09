@@ -20,6 +20,7 @@ export const authenticate = async (req, res, next) => {
     }
     // attach the decoded token to the request object
     req.decoded = decoded;
+
     //continue the request
     next();
   });
