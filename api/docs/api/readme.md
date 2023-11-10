@@ -780,3 +780,220 @@ Status Code: 500 Internal Server Error
     ```
 
 ---
+
+Certainly! Below is the generated API documentation for the provided routes:
+
+## COURSE-SECTION MANAGEMENT
+
+### 1. Get All Course Sections
+
+**Route:**
+`GET /:course_slug/sections`
+
+**Authorization:** Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of all sections for a specific course.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+[
+  // List of sections with details
+]
+```
+
+**Error Responses:**
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 2. Get Specific Course Section
+
+**Route:**
+`GET /:course_slug/sections/:id`
+
+**Authorization:** Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of a specific section for a course.
+
+**Parameters:**
+
+- `id` (string): Section ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Section Found successfully",
+  "section": {
+    // Section details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 3. Create a Section
+
+**Route:**
+`POST /:course_slug/sections`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Request Body (JSON):**
+
+```json
+{
+  "title": "New Section"
+}
+```
+
+**Response:**
+
+- Status Code: 201 Created
+
+```json
+{
+  "message": "Section created successfully",
+  "section": {
+    // Section details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 4. Update a Section
+
+**Route:**
+`PUT /:course_slug/sections/:id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `id` (string): Section ID.
+
+**Request Body (JSON):**
+
+```json
+{
+  "title": "Updated Section"
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Section was updated successfully",
+  "updatedSection": {
+    // Updated section details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {id} was not found or it is not in this course"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 5. Delete a Section
+
+**Route:**
+`DELETE /:course_slug/sections/:id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `id` (string): Section ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Section with the id {id} was deleted successfully",
+  "targetSection": {
+    // Deleted section details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {id} was not found or it is not in this course"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+---
