@@ -377,3 +377,406 @@ Status Code: 500 Internal Server Error
 
 ---
 ````
+
+## COURSE MANAGEMENT
+
+### 1. Create Course
+
+#### Route: `POST /create`
+
+- **Description:** Creates a new course.
+
+- **Authorization:** Admin or Instructor
+
+- **Request Body (JSON):**
+
+  ```json
+  {
+    "title": "New Course",
+    "description": "course description",
+    "image": "course image",
+    "price": 29,
+    "totalHours": "4hr",
+    "isFeatured": true,
+    "categoryId": 1
+  }
+  ```
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": "Course created successfully",
+      "newCourse": {
+        // Course details
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "Internal server error",
+      "error": "{error_message}"
+    }
+    ```
+
+### 2. Get All Courses
+
+#### Route: `GET /`
+
+- **Description:** Retrieves details of all courses.
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": "All courses Fetched",
+      "courses": [
+        // List of courses with details
+      ]
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "Courses are not found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "error": "{error_message}"
+    }
+    ```
+
+### 3. Get Specific Course
+
+#### Route: `GET /:slug`
+
+- **Description:** Retrieves details of a specific course.
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": `Course {slug} was successfully found`,
+      "course": {
+        // Course details
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": `Course {slug} was not found`
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 4. Get All My Courses
+
+#### Route: `GET /my-courses/all`
+
+- **Description:** Retrieves details of all courses created by the logged-in user (admin/instructor).
+
+- **Authorization:** Admin or Instructor
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": "Your courses found successfully",
+      "myCourses": [
+        // List of courses with details
+      ]
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "There's no course found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 5. Get My Specific Course
+
+#### Route: `GET /my-courses/:slug`
+
+- **Description:** Retrieves details of a specific course created by the logged-in user (admin/instructor).
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin or Instructor
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": `Your {slug} course  successfully`,
+      "myCourse": {
+        // Course details
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": `Course {slug} was not found or it is not a course you own`
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 6. Get All My Enrolled Courses
+
+#### Route: `GET /enrolled-courses/all`
+
+- **Description:** Retrieves details of all courses enrolled by the logged-in user (admin/instructor/student).
+
+- **Authorization:** Admin, Instructor, or Student
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    [
+      // List of enrolled courses with details
+    ]
+    ```
+
+- **Error Responses:**
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 7. Get Specific Course Enrolled by Logged-In User
+
+#### Route: `GET /enrolled-courses/:slug`
+
+- **Description:** Retrieves details of a specific course enrolled by the logged-in user (admin/instructor/student).
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin, Instructor, or Student
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      // Details of the enrolled course
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": `Course was not found`
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 8. Enroll in a Course
+
+#### Route: `PUT /:slug/enroll`
+
+- **Description:** Enrolls the logged-in user in a specific course.
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin, Instructor, or Student
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": `You enrolled {slug} course`,
+      "user": {
+        // User details added with the the course in which the user enrolled
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 9. Update a Course
+
+#### Route: `PUT /:slug`
+
+- **Description:** Updates the details of a specific course.
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin
+
+- **Request Body (JSON):**
+
+  - Include the fields you want to update.
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+
+```json
+{
+  "message": `Course {slug} has been updated successfully`,
+  "course": {
+    // Updated course details
+  }
+}
+```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": `Course {slug} was not found`
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 10. Delete a Course
+
+#### Route: `DELETE /:slug`
+
+- **Description:** Deletes a specific course.
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": `Course {slug} has been deleted successfully`
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "Course was not found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 11. Delete My Course
+
+#### Route: `DELETE /my-courses/:slug`
+
+- **Description:** Deletes a course created by the logged-in user (admin or instructor).
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin or Instructor
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      "message": "You Deleted The Course Successfully"
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "Course Not Found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+---
