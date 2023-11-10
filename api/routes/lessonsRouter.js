@@ -7,6 +7,7 @@ import {
   isAdminOrCourseCreator,
   isAdminOrInstructor,
   isCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
 } from "../middleware/authorizationMiddleware.js";
 import {
   createALesson,
@@ -21,15 +22,15 @@ const lessonsRouter = express.Router();
 lessonsRouter.get(
   "/:course_slug/:section_id/lessons",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getAllLessonsOfSection
-);
+); // getting all the lessons of specific section (admin/instructor-course creator / student - enrolled student)
 lessonsRouter.get(
   "/:course_slug/:section_id/lesson/:lesson_id",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getSpecificLesson
-);
+); // getting the content of specific lesson on  specific section (admin/instructor-course creator / student - enrolled student)
 
 // POST ROUTES
 lessonsRouter.post(
@@ -37,7 +38,7 @@ lessonsRouter.post(
   authenticate,
   isAdminOrCourseCreator,
   createALesson
-);
+); // creating a lesson (admin or instructor - course creator)
 
 // PUT ROUTES
 lessonsRouter.put(
@@ -45,12 +46,13 @@ lessonsRouter.put(
   authenticate,
   isAdminOrCourseCreator,
   updateALesson
-);
+); // updating a lesson (admin or instructor - course creator)
 
 // DELETE ROUTES
 lessonsRouter.delete(
   "/:course_slug/:section_id/lesson/:lesson_id",
   authenticate,
+  isAdminOrCourseCreator, // deleting a lesson (admin or instructor - course creator)
   deleteALesson
   // deleteASection
 );

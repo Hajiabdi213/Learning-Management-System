@@ -17,20 +17,20 @@ import { isAdmin } from "../middleware/authorizationMiddleware.js";
 const userRouter = express.Router();
 
 // all post requests
-userRouter.post("/:role/signup", registerAUser);
-userRouter.post("/login", userLogin);
+userRouter.post("/:role/signup", registerAUser); // user signup
+userRouter.post("/login", userLogin); // user login
 
 // all get requests
-userRouter.get("/", authenticate, isAdmin, getAllUsers);
-userRouter.get("/:role", authenticate, isAdmin, getAllUsersByRole);
+userRouter.get("/", authenticate, isAdmin, getAllUsers); // getting all users (admin)
+userRouter.get("/:role", authenticate, isAdmin, getAllUsersByRole); // getting details of specific user (admin)
 
 // all put requests
-userRouter.put("/update", authenticate, updateLoggedInUserProfile);
-userRouter.put("/:id", authenticate, isAdmin, updateUserById);
-userRouter.put("/:id/block", authenticate, isAdmin, blockAUser);
-userRouter.put("/:id/un-block", authenticate, isAdmin, unBlockAUser);
+userRouter.put("/update", authenticate, updateLoggedInUserProfile); // logged in user updating his/her info(admin/instructor/student)
+userRouter.put("/:id", authenticate, isAdmin, updateUserById); // updating the info of specific user (admin)
+userRouter.put("/:id/block", authenticate, isAdmin, blockAUser); // blocking a user (admin)
+userRouter.put("/:id/un-block", authenticate, isAdmin, unBlockAUser); // unblocking a user (admin)
 
 // all delete requests
-userRouter.delete("/:id", authenticate, isAdmin, deleteAUser);
+userRouter.delete("/:id", authenticate, isAdmin, deleteAUser); // deleting a user (admin)
 
 export default userRouter;

@@ -16,11 +16,11 @@ courseCategoryRouter.post(
   authenticate,
   isAdminOrInstructor,
   createCourseCategory
-);
+); // creating a course category (admin or instructor)
 
 // all get  requests
-courseCategoryRouter.get("/", authenticate, getAllCourseCategories);
-courseCategoryRouter.get("/:slug", authenticate, getSpecificCourseCategory);
+courseCategoryRouter.get("/", authenticate, getAllCourseCategories); // getting all categories (admin, instructor, and student)
+courseCategoryRouter.get("/:slug", authenticate, getSpecificCourseCategory); // getting details of specific category (admin, instructor and student)
 
 // all post endpoints
 courseCategoryRouter.put(
@@ -28,7 +28,7 @@ courseCategoryRouter.put(
   authenticate,
   isAdminOrInstructor,
   updateSpecificCategory
-);
+); // updating an specific category (admin or instructor)
 
 // all delete endpoints
 courseCategoryRouter.delete(
@@ -36,6 +36,6 @@ courseCategoryRouter.delete(
   authenticate,
   isAdminOrInstructor,
   deleteACategory
-);
+); // deleting a category (admin or instructor)
 
 export default courseCategoryRouter;

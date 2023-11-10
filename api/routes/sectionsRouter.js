@@ -13,6 +13,7 @@ import {
   isAdminOrCourseCreator,
   isAdminOrInstructor,
   isCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
 } from "../middleware/authorizationMiddleware.js";
 const sectionsRouter = express.Router();
 
@@ -20,15 +21,15 @@ const sectionsRouter = express.Router();
 sectionsRouter.get(
   "/:course_slug/sections",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getAllCourseSections
-);
+); // getting all content the sections of the course (admin/ instructor/ enrolled-student)
 sectionsRouter.get(
   "/:course_slug/sections/:id",
   authenticate,
-  isAdminOrCourseCreator,
+  isCourseCreatorOrAdminOrEnrolled,
   getSpecificCourseSection
-);
+); // getting all the content of specific section  (admin/instructor/ enrolled-student)
 
 // POST ROUTES
 sectionsRouter.post(
@@ -36,7 +37,7 @@ sectionsRouter.post(
   authenticate,
   isAdminOrCourseCreator,
   createASection
-);
+); // creating a section for specific course (admin or instructor(course creator))
 
 // PUT ROUTES
 sectionsRouter.put(
@@ -44,7 +45,7 @@ sectionsRouter.put(
   authenticate,
   isAdminOrCourseCreator,
   updateASection
-);
+); // updating a section for specific course (admin or instructor (course creator))
 
 // DELETE ROUTES
 sectionsRouter.delete(
@@ -52,5 +53,5 @@ sectionsRouter.delete(
   authenticate,
   isAdminOrCourseCreator,
   deleteASection
-);
+); // deleting a section for specific course (admin or instructor (course creator))
 export default sectionsRouter;
