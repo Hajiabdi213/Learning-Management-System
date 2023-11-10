@@ -997,3 +997,241 @@ Retrieves details of a specific section for a course.
 ```
 
 ---
+
+## LESSONS MANAGEMENT
+
+### 1. Get All Lessons of a Section
+
+**Route:**
+`GET /:course_slug/:section_id/lessons`
+
+**Authorization:**
+
+- Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of all lessons for a specific section.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Lessons of the {section_title} section",
+  "lessons": [
+    // List of lessons with details
+  ]
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {section_id} does not exist in {course_slug}"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 2. Get Specific Lesson
+
+**Route:**
+`GET /:course_slug/:section_id/lesson/:lesson_id`
+
+**Authorization:**
+
+- Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of a specific lesson in a section.
+
+**Parameters:**
+
+- `lesson_id` (string): Lesson ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was found successfully",
+  "lesson": {
+    // Lesson details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 3. Create a Lesson
+
+**Route:**
+`POST /:course_slug/:section_id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Request Body (JSON):**
+
+```json
+{
+  // Lesson details
+}
+```
+
+**Response:**
+
+- Status Code: 201 Created
+
+```json
+{
+  "message": "Lesson created successfully",
+  "lesson": {
+    // Lesson details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {section_id} does not exist in {course_slug}"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 4. Update a Lesson
+
+**Route:**
+`PUT /:course_slug/:section_id/lesson/:lesson_id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `lesson_id` (string): Lesson ID.
+
+**Request Body (JSON):**
+
+```json
+{
+  // Updated lesson details
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was updated successfully",
+  "updatedLesson": {
+    // Updated lesson details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 5. Delete a Lesson
+
+**Route:**
+`DELETE /:course_slug/:section_id/lesson/:lesson_id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `lesson_id` (string): Lesson ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was deleted successfully",
+  "targetLesson": {
+    // Deleted lesson details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Lesson with the id {lesson_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+---
