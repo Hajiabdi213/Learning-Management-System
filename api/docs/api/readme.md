@@ -1235,3 +1235,461 @@ Retrieves details of a specific lesson in a section.
 ```
 
 ---
+
+## ASSESSMENT MANAGEMENT
+
+### 1. Get All Assessments of a Section
+
+**Route:**
+`GET /:course_slug/:section_id/assessments`
+
+**Authorization:**
+
+- Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of all assessments for a specific section.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Assessments of the {section_title} section",
+  "assessments": [
+    // List of assessments with details
+  ]
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {section_id} does not exist in {course_slug}"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 2. Get Specific Assessment
+
+**Route:**
+`GET /:course_slug/:section_id/assessments/:assessment_id`
+
+**Authorization:**
+
+- Admin, Instructor, or Enrolled Student
+
+**Description:**
+Retrieves details of a specific assessment in a section.
+
+**Parameters:**
+
+- `assessment_id` (string): Assessment ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was found successfully",
+  "assessment": {
+    // Assessment details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 3. Create an Assessment
+
+**Route:**
+`POST /:course_slug/:section_id/assessments`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Request Body (JSON):**
+
+```json
+{
+  // Assessment details
+}
+```
+
+**Response:**
+
+- Status Code: 201 Created
+
+```json
+{
+  "message": "Assessment created successfully",
+  "assessment": {
+    // Assessment details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Section with the id {section_id} does not exist in {course_slug}"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 4. Update an Assessment
+
+**Route:**
+`PUT /:course_slug/:section_id/assessments/:assessment_id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `assessment_id` (string): Assessment ID.
+
+**Request Body (JSON):**
+
+```json
+{
+  // Updated assessment details
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was updated successfully",
+  "updatedAssessment": {
+    // Updated assessment details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 5. Delete an Assessment
+
+**Route:**
+`DELETE /:course_slug/:section_id/assessments/:assessment_id`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `assessment_id` (string): Assessment ID.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was deleted successfully",
+  "targetAssessment": {
+    // Deleted assessment details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 6. Submit an Assessment
+
+**Route:**
+`POST /:course_slug/:section_id/assessments/:assessment_id/submit`
+
+**Authorization:**
+
+- Enrolled Student
+
+**Request Body (JSON):**
+
+```json
+{
+  "content": "Your submission content"
+}
+```
+
+**Response:**
+
+- Status Code: 201 Created
+
+```json
+{
+  "message": "You submitted the assessment successfully",
+  "submission": {
+    // Submission details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 7. Get All Submissions of an Assessment
+
+**Route:**
+`GET /:course_slug/:section_id/assessments/:assessment_id/submissions`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "All submissions of {assessment_title} assessment found",
+  "submissions": [
+    // List of submissions with details
+  ]
+}
+```
+
+\*\*
+
+Error Responses:\*\*
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 8. Grade a Submission
+
+**Route:**
+`PUT /:course_slug/:section_id/assessments/:assessment_id/submissions/:submission_id/grade`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Parameters:**
+
+- `submission_id` (string): Submission ID.
+
+**Request Body (JSON):**
+
+```json
+{
+  "points": 90
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "You graded the assessment submission successfully",
+  "gradedSubmission": {
+    // Graded submission details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Submission with the id {submission_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 9. Get All Graded Submissions of an Assessment
+
+**Route:**
+`GET /:course_slug/:section_id/assessments/:assessment_id/submissions/graded`
+
+**Authorization:**
+
+- Admin or Instructor (Course Creator)
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "All graded submissions of {assessment_title} assessment found",
+  "gradedSubmissions": [
+    // List of graded submissions with details
+  ]
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
+
+### 10. Get Your Submissions of an Assessment
+
+**Route:**
+`GET /:course_slug/:section_id/assessments/:assessment_id/my_submissions`
+
+**Authorization:**
+
+- Enrolled Student
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "All Your submissions of {assessment_title} assessment",
+  "submissions": [
+    // List of your submissions with details
+  ]
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Assessment with the id {assessment_id} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "{error_message}"
+}
+```
