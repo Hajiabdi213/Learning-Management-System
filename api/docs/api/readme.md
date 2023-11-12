@@ -57,6 +57,14 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
    5.8 [Grade a Submission](#8-grade-a-submission)
    5.9 [Get All Graded Submissions of an Assessment](#9-get-all-graded-submissions-of-an-assessment)
    5.10 [Get Your Submissions of an Assessment](#10-get-your-submissions-of-an-assessment)
+   Certainly! Here's a similar structure for your "Course Category Management":
+
+6. [Course Category Management](#6-course-category-management)
+   6.1 [Create Course Category](#1-create-course-category)
+   6.2 [Get All Course Categories](#2-get-all-course-categories)
+   6.3 [Get Specific Course Category](#3-get-specific-course-category)
+   6.4 [Update Category](#4-update-category)
+   6.5 [Delete a Category](#5-delete-a-category)
 
 ---
 
@@ -1754,7 +1762,7 @@ Error Responses:\*\*
 
 ---
 
-## COURSE CATEGORY MANAGEMENT
+## 6. COURSE CATEGORY MANAGEMENT
 
 ### 1. Create Course Category
 
