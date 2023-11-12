@@ -9,10 +9,10 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
 ## TABLE OF CONTENTS
 
 1. [User Management](#user-management)
-   1.1 [User Signup](#1-user-signup)
-   1.2 [User Login](#2-user-login)
-   1.3 [Get All Users (Admin)](#3-get-all-users-admin)
-   1.4 [Get Users by Role (Admin)](#4-get-users-by-role-admin)
+   1.1. [User Signup](#1-user-signup)
+   1.2. [User Login](#2-user-login)
+   1.3. [Get All Users (Admin)](#3-get-all-users-admin)
+   1.4. [Get Users by Role (Admin)](#4-get-users-by-role-admin)
    1.5 [Update Logged-In User Profile](#5-update-logged-in-user-profile)
    1.6 [Update User by ID (Only Admin)](#6-update-user-by-id-only-admin)
    1.7 [Block User (Only Admin)](#7-block-user-only-admin)
