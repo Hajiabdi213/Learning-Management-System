@@ -1,10 +1,68 @@
 # API DOCUMENTATION
 
-### Base URL : ....
+---
 
-## OUTLINE
+Welcome to the comprehensive API documentation for our Learning Management System (LMS) API. This powerful API offers a range of endpoints dedicated to efficiently managing users (admins, instructors, and students), courses, lessons, and assessments within the educational ecosystem. To leverage this API, simply make requests to the following base URL: https://learning-management-system-o54h.onrender.com/api, appending the respective endpoints as detailed below. For instance, to interact with courses, access the endpoint: https://learning-management-system-o54h.onrender.com/api/courses. Explore the wealth of functionalities provided by each endpoint to seamlessly integrate and enhance your Learning Management System experience.
+
+---
+
+## TABLE OF CONTENTS
+
+1. [User Management](#user-management)
+   1.1 [User Signup](#1-user-signup)
+   1.2 [User Login](#2-user-login)
+   1.3 [Get All Users (Admin)](#3-get-all-users-admin)
+   1.4 [Get Users by Role (Admin)](#4-get-users-by-role-admin)
+   1.5 [Update Logged-In User Profile](#5-update-logged-in-user-profile)
+   1.6 [Update User by ID (Only Admin)](#6-update-user-by-id-only-admin)
+   1.7 [Block User (Only Admin)](#7-block-user-only-admin)
+   1.8 [Unblock User (Admin)](#8-unblock-user-admin)
+   1.9 [Delete User (Admin)](#9-delete-user-admin)
+
+2. [Course Management](#course-management)
+   2.1 [Create Course](#1-create-course)
+   2.2 [Get All Courses](#2-get-all-courses)
+   2.3 [Get Specific Course](#3-get-specific-course)
+   2.4 [Get All My Courses](#4-get-all-my-courses)
+   2.5 [Get My Specific Course](#5-get-my-specific-course)
+   2.6 [Get All My Enrolled Courses](#6-get-all-my-enrolled-courses)
+   2.7 [Get Specific Course Enrolled by Logged-In User](#7-get-specific-course-enrolled-by-logged-in-user)
+   2.8 [Enroll in a Course](#8-enroll-in-a-course)
+   2.9 [Update a Course](#9-update-a-course)
+   2.10 [Delete a Course](#10-delete-a-course)
+   2.11 [Delete My Course](#11-delete-my-course)
+
+3. [Course-Section Management](#course-section-management)
+   3.1 [Get All Course Sections](#1-get-all-course-sections)
+   3.2 [Get Specific Course Section](#2-get-specific-course-section)
+   3.3 [Create a Section](#3-create-a-section)
+   3.4 [Update a Section](#4-update-a-section)
+   3.5 [Delete a Section](#5-delete-a-section)
+
+4. [Lessons Management](#lessons-management)
+   4.1 [Get All Lessons of a Section](#1-get-all-lessons-of-a-section)
+   4.2 [Get Specific Lesson](#2-get-specific-lesson)
+   4.3 [Create a Lesson](#3-create-a-lesson)
+   4.4 [Update a Lesson](#4-update-a-lesson)
+   4.5 [Delete a Lesson](#5-delete-a-lesson)
+
+5. [Assessment Management](#assessment-management)
+   5.1 [Get All Assessments of a Section](#1-get-all-assessments-of-a-section)
+   5.2 [Get Specific Assessment](#2-get-specific-assessment)
+   5.3 [Create an Assessment](#3-create-an-assessment)
+   5.4 [Update an Assessment](#4-update-an-assessment)
+   5.5 [Delete an Assessment](#5-delete-an-assessment)
+   5.6 [Submit an Assessment](#6-submit-an-assessment)
+   5.7 [Get All Submissions of an Assessment](#7-get-all-submissions-of-an-assessment)
+   5.8 [Grade a Submission](#8-grade-a-submission)
+   5.9 [Get All Graded Submissions of an Assessment](#9-get-all-graded-submissions-of-an-assessment)
+   5.10 [Get Your Submissions of an Assessment](#10-get-your-submissions-of-an-assessment)
+
+---
 
 ## USER MANAGEMENT
+
+### Users Base URL: `BaseURL/users/`
 
 ### 1. User Signup
 
@@ -336,16 +394,17 @@
 
 Status Code: 500 Internal Server Error
 
-````json
+```json
 {
-"message": "Internal server error"
+  "message": "Internal server error"
 }
+```
 
 ### 9. Delete User (Admin)
 
 #### Route: `DELETE /:id`
 
-- **Description:** Deletes a user (Bearer token with admin privilege  required ).
+- **Description:** Deletes a user (Bearer token with admin privilege required ).
 
 - **Parameters:**
 
@@ -376,9 +435,10 @@ Status Code: 500 Internal Server Error
     ```
 
 ---
-````
 
 ## COURSE MANAGEMENT
+
+#### Courses URL = `/baseURL/courses/`
 
 ### 1. Create Course
 
@@ -780,8 +840,6 @@ Status Code: 500 Internal Server Error
     ```
 
 ---
-
-Certainly! Below is the generated API documentation for the provided routes:
 
 ## COURSE-SECTION MANAGEMENT
 
@@ -1693,3 +1751,230 @@ Error Responses:\*\*
   "message": "{error_message}"
 }
 ```
+
+---
+
+## COURSE CATEGORY MANAGEMENT
+
+### 1. Create Course Category
+
+**Route:**
+`POST /`
+
+**Authorization:**
+
+- Admin or Instructor
+
+**Request Body (JSON):**
+
+```json
+{
+  "title": "Category Title"
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Course Category created successfully",
+  "newCategory": {
+    // New category details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "message": "Internal server error",
+  "error": "{error_message}"
+}
+```
+
+### 2. Get All Course Categories
+
+**Route:**
+`GET /`
+
+**Authorization:**
+
+- Admin, Instructor, or Student
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "All categories fetched",
+  "categories": [
+    // List of categories with details
+  ]
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Categories are not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "error": "{error_message}"
+}
+```
+
+### 3. Get Specific Course Category
+
+**Route:**
+`GET /:slug`
+
+**Authorization:**
+
+- Admin, Instructor, or Student
+
+**Parameters:**
+
+- `slug` (string): Category Slug.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Course category {slug} was successfully found",
+  "category": {
+    // Category details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Course category {slug} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "error": "{error_message}"
+}
+```
+
+### 4. Update Category
+
+**Route:**
+`PUT /:slug`
+
+**Authorization:**
+
+- Admin or Instructor
+
+**Parameters:**
+
+- `slug` (string): Category Slug.
+
+**Request Body (JSON):**
+
+```json
+{
+  "title": "Updated Category Title"
+}
+```
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Course category updated successfully",
+  "updatedCategory": {
+    // Updated category details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Course category {slug} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "error": "{error_message}"
+}
+```
+
+### 5. Delete a Category
+
+**Route:**
+`DELETE /:slug`
+
+**Authorization:**
+
+- Admin or Instructor
+
+**Parameters:**
+
+- `slug` (string): Category Slug.
+
+**Response:**
+
+- Status Code: 200 OK
+
+```json
+{
+  "message": "Course category deleted successfully",
+  "targetCategory": {
+    // Deleted category details
+  }
+}
+```
+
+**Error Responses:**
+
+- Status Code: 404 Not Found
+
+```json
+{
+  "message": "Course category {slug} was not found"
+}
+```
+
+- Status Code: 500 Internal Server Error
+
+```json
+{
+  "error": "{error_message}"
+}
+```
+
+---

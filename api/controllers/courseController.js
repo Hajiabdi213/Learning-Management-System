@@ -110,6 +110,7 @@ export const enrollCourse = async (req, res) => {
         enrolledCourses: true,
       },
     });
+
     return res
       .status(200)
       .json({ message: `You enrolled ${slug} course`, user });
