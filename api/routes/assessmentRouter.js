@@ -3,10 +3,7 @@ import express from "express";
 import { authenticate } from "../middleware/authenticate.js";
 
 import {
-  isAdmin,
   isAdminOrCourseCreator,
-  isAdminOrInstructor,
-  isCourseCreator,
   isCourseCreatorOrAdminOrEnrolled,
   isEnrolled,
 } from "../middleware/authorizationMiddleware.js";
@@ -22,10 +19,7 @@ import {
   getAllGradedSubmissions,
   getMySubmissions,
 } from "../controllers/assessmentController.js";
-// import {
-//   getAssessmentDetails,
-//   getAssessmentsForCourse,
-// } from "../controllers/assessmentsController.js";
+
 const assessmentsRouter = express.Router();
 
 // All Get Routes

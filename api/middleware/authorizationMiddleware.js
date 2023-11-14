@@ -5,7 +5,6 @@ export const isAdmin = async (req, res, next) => {
   const admin = await prisma.user.findUnique({ where: { email } });
 
   if (admin.role !== "admin") {
-    console.log("working");
     res.status(401).json({ message: "You are not an admin" });
   } else {
     next();

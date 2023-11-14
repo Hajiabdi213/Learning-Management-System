@@ -20,8 +20,7 @@ courseCategoryRouter.post(
 
 // all get  requests
 courseCategoryRouter.get("/", authenticate, getAllCourseCategories); // getting all categories (admin, instructor, and student)
-courseCategoryRouter.get("/:slug", authenticate, getSpecificCourseCategory); // getting details of specific category (admin, instructor and student)
-
+courseCategoryRouter.get("/:slug", authenticate, getSpecificCourseCategory); // getting details of specific category (admin, instructor and student).
 // all post endpoints
 courseCategoryRouter.put(
   "/:slug",

@@ -3,10 +3,7 @@ import express from "express";
 import { authenticate } from "../middleware/authenticate.js";
 
 import {
-  isAdmin,
   isAdminOrCourseCreator,
-  isAdminOrInstructor,
-  isCourseCreator,
   isCourseCreatorOrAdminOrEnrolled,
 } from "../middleware/authorizationMiddleware.js";
 import {

@@ -18,7 +18,6 @@ import {
   isAdmin,
   isAdminOrInstructor,
   isCourseCreator,
-  isInstructor,
 } from "../middleware/authorizationMiddleware.js";
 const courseRouter = express.Router();
 

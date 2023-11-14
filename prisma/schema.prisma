@@ -42,10 +42,10 @@ model Course {
   slug         String           @unique
   description  String?
   image        String?
-  price        Decimal
-  paid         Boolean
+  price        Decimal?
+  paid         Boolean          @default(false)
   totalHours   String?
-  enrolls      Int
+  enrolls      Int?
   isFeatured   Boolean          @default(false)
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @default(now())
@@ -72,13 +72,13 @@ model Section {
 model Lesson {
   id           Int      @id @default(autoincrement())
   sectionId    Int
-  source       String
+  source       String?
   free_preview Boolean  @default(false)
   title        String
   type         String
   duration     String
   section      Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  video_link   String
+  video_link   String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

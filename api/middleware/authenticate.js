@@ -1,5 +1,4 @@
 import Jwt from "jsonwebtoken";
-import prisma from "../lib/index.js";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 // authenticate

@@ -9,10 +9,7 @@ import {
   updateASection,
 } from "../controllers/sectionController.js";
 import {
-  isAdmin,
   isAdminOrCourseCreator,
-  isAdminOrInstructor,
-  isCourseCreator,
   isCourseCreatorOrAdminOrEnrolled,
 } from "../middleware/authorizationMiddleware.js";
 const sectionsRouter = express.Router();

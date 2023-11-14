@@ -1,5 +1,3 @@
-import express from "express";
-
 // Route not found error handler
 export const notFound = (req, res, next) => {
   const error = new Error(`Route Not Found: ${req.originalUrl}`);
