@@ -9,8 +9,8 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
 ## TABLE OF CONTENTS
 
 1. [User Management](#user-management)
-   1.1. [User Signup](#1-user-signup)
-   1.2. [User Login](#2-user-login)
+   1.1 [User Signup](#1-user-signup)
+   1.2 [User Login](#2-user-login)
    1.3 [Get All Users (Admin)](#3-get-all-users-admin)
    1.4 [Get Users by Role (Admin)](#4-get-users-by-role-admin)
    1.5 [Update Logged-In User Profile](#5-update-logged-in-user-profile)
