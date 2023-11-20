@@ -225,7 +225,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Content:
     ```json
     {
-      "message": `All {role}s are fetched`,
+      "message": "All {role}s are fetched",
       "users": [
         // List of users with details
       ]
@@ -320,7 +320,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `User with the id {id} was not found`
+      "message": "User with the id {id} was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -346,7 +346,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Content:
     ```json
     {
-      "message": `User with the id {id} has been blocked successfully`,
+      "message": "User with the id {id} has been blocked successfully",
       "user": {
         // Blocked user details
       }
@@ -357,7 +357,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `User with the id {id} was not found`
+      "message": "User with the id {id} was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -383,7 +383,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Content:
     ```json
     {
-      "message": `User with the id {id} has been unblocked successfully`,
+      "message": "User with the id {id} has been unblocked successfully",
       "user": {
         // Unblocked user details
       }
@@ -394,7 +394,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `User with the id {id} was not found`
+      "message": "User with the id {id} was not foun"`
     }
     ```
   -
@@ -423,7 +423,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": `user with the id {id} deleted successfully`
+      "message": "user with the id {id} deleted successfull"`
     }
     ```
 
@@ -431,7 +431,7 @@ Status Code: 500 Internal Server Error
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `User with the ID {id} was not found`
+      "message": "User with the ID {id} was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -540,7 +540,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": `Course {slug} was successfully found`,
+      "message": "Course {slug} was successfully found",
       "course": {
         // Course details
       }
@@ -551,7 +551,7 @@ Status Code: 500 Internal Server Error
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `Course {slug} was not found`
+      "message": "Course {slug} was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -614,7 +614,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": `Your {slug} course  successfully`,
+      "message": "Your {slug} course  successfully",
       "myCourse": {
         // Course details
       }
@@ -625,7 +625,7 @@ Status Code: 500 Internal Server Error
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `Course {slug} was not found or it is not a course you own`
+      "message": "Course {slug} was not found or it is not a course you ow"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -687,7 +687,7 @@ Status Code: 500 Internal Server Error
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `Course was not found`
+      "message": "Course was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -715,7 +715,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": `You enrolled {slug} course`,
+      "message": "You enrolled {slug} course",
       "user": {
         // User details added with the the course in which the user enrolled
       }
@@ -753,7 +753,7 @@ Status Code: 500 Internal Server Error
 
 ```json
 {
-  "message": `Course {slug} has been updated successfully`,
+  "message": "Course {slug} has been updated successfully",
   "course": {
     // Updated course details
   }
@@ -764,7 +764,7 @@ Status Code: 500 Internal Server Error
   - Status Code: 404 Not Found
     ```json
     {
-      "message": `Course {slug} was not found`
+      "message": "Course {slug} was not foun"`
     }
     ```
   - Status Code: 500 Internal Server Error
@@ -792,7 +792,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": `Course {slug} has been deleted successfully`
+      "message": "Course {slug} has been deleted successfull"`
     }
     ```
 
