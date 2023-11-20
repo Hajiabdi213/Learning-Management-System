@@ -5,6 +5,8 @@ import {
   deleteAUser,
   getAllUsers,
   getAllUsersByRole,
+  getLoggedInUserProfile,
+  getProfileOfSpecificUser,
   registerAUser,
   unBlockAUser,
   updateLoggedInUserProfile,
@@ -22,6 +24,8 @@ userRouter.post("/login", userLogin); // user login
 
 // all get requests
 userRouter.get("/", authenticate, isAdmin, getAllUsers); // getting all users (admin)
+userRouter.get("/profile", authenticate, getLoggedInUserProfile); // get the profile of logged in user
+userRouter.get("/profile/:id", authenticate, isAdmin, getProfileOfSpecificUser); // get the profile of logged in user
 userRouter.get("/:role", authenticate, isAdmin, getAllUsersByRole); // getting details of specific user (admin)
 
 // all put requests

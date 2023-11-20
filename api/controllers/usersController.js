@@ -20,6 +20,7 @@ export const registerAUser = async (req, res) => {
     if (!user) {
       // hash the password
       const hashedPassword = await bcryptjs.hash(password, 10);
+      // create the user
       const newUser = await prisma.user.create({
         data: {
           firstName,
@@ -139,6 +140,52 @@ export const getAllUsersByRole = async (req, res) => {
   }
 };
 
+//!----------------------- GET DETAILS OF SPECIFIC USER -----------------
+export const getProfileOfSpecificUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        myCourses: true,
+        enrolledCourses: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ message: "user found successfully", user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+//! ---------------------- GET THE PROFILE OF LOGGED IN USER -------------
+export const getLoggedInUserProfile = async (req, res) => {
+  try {
+    const { id } = req.decoded;
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        myCourses: true,
+        enrolledCourses: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ message: "user found successfully", user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 //! ------------UPDATE LOGGED IN USER PROFILE -----------
 export const updateLoggedInUserProfile = async (req, res) => {
   const { email, role } = req.decoded;

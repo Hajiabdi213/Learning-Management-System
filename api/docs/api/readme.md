@@ -13,11 +13,13 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
    1.2 [User Login](#2-user-login)
    1.3 [Get All Users (Admin)](#3-get-all-users-admin)
    1.4 [Get Users by Role (Admin)](#4-get-users-by-role-admin)
-   1.5 [Update Logged-In User Profile](#5-update-logged-in-user-profile)
-   1.6 [Update User by ID (Only Admin)](#6-update-user-by-id-only-admin)
-   1.7 [Block User (Only Admin)](#7-block-user-only-admin)
-   1.8 [Unblock User (Admin)](#8-unblock-user-admin)
-   1.9 [Delete User (Admin)](#9-delete-user-admin)
+   1.5 [GET Profile of Logged-in User](#5-get-profile-of-logged-in-user)
+   1.6 [GET Profile of Specific User (admin))](#6-get-profile-of-specific-user-admin)
+   1.7 [Update Logged-In User Profile](#7-update-logged-in-user-profile)
+   1.8 [Update User by ID (Only Admin)](#8-update-user-by-id-only-admin)
+   1.9 [Block User (Only Admin)](#9-block-user-only-admin)
+   1.10 [Unblock User (Admin)](#10-unblock-user-admin)
+   1.11 [Delete User (Admin)](#11-delete-user-admin)
 
 2. [Course Management](#course-management)
    2.1 [Create Course](#1-create-course)
@@ -246,7 +248,79 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
     }
     ```
 
-### 5. Update Logged-In User Profile
+### 5. GET Profile of Logged-in User
+
+#### ROUTE: `GET /profile`
+
+- **Description:** Getting the profile of the logged-in user (Bearer token for the currently logged in user is required ).
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+
+    ```json
+    {
+      "message": "user found successfully ",
+      "user": {
+        // user profile details or information
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "User  not found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "Internal server error"
+    }
+    ```
+
+### 6. GET Profile of Specific User (admin)
+
+#### ROUTE: `GET profile/:id`
+
+- **Description:** Getting the profile of the specific user (Bearer token with admin privilege required ).
+
+- **Parameters:**
+
+  - `id` : User ID.
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+
+    ```json
+    {
+      "message": "user found successfully ",
+      "user": {
+        // user profile details or information
+      }
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "User  not found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "Internal server error"
+    }
+    ```
+
+### 7. Update Logged-In User Profile
 
 #### Route: `PUT /update`
 
@@ -289,7 +363,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
     }
     ```
 
-### 6. Update User by ID (Only Admin)
+### 8. Update User by ID (Only Admin)
 
 #### Route: `PUT /:id`
 
@@ -330,7 +404,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
     }
     ```
 
-### 7. Block User (Only Admin)
+### 9. Block User (Only Admin)
 
 #### Route: `PUT /:id/block`
 
@@ -367,7 +441,7 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
     }
     ```
 
-### 8. Unblock User (Admin)
+### 10. Unblock User (Admin)
 
 #### Route: `PUT /:id/un-block`
 
@@ -407,7 +481,7 @@ Status Code: 500 Internal Server Error
 }
 ```
 
-### 9. Delete User (Admin)
+### 11. Delete User (Admin)
 
 #### Route: `DELETE /:id`
 
@@ -423,7 +497,7 @@ Status Code: 500 Internal Server Error
   - Content:
     ```json
     {
-      "message": "user with the id {id} deleted successful"
+      "message": "user with the id {id} deleted successfull"
     }
     ```
 
