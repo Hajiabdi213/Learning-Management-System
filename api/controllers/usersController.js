@@ -52,7 +52,9 @@ export const userLogin = async (req, res, next) => {
 
   // check if the user exists
   try {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (!user) {
       return res
@@ -83,7 +85,6 @@ export const userLogin = async (req, res, next) => {
         image: user.image,
         role: user.role,
         isBlocked: user.isBlocked,
-        enrolledCourses: user.enrolledCourses,
       },
       JWT_SECRET_KEY,
       { expiresIn: "1d" }

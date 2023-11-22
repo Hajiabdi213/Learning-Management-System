@@ -42,12 +42,22 @@ export const createCourse = async (req, res) => {
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
-      include: {
+      select: {
+        title: true,
+        slug: true,
+        description: true,
+        image: true,
+        price: true,
+        totalHours: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
+
         instructor: {
           select: {
-            id: true,
             firstName: true,
             lastName: true,
+            image: true,
           },
         },
       },
@@ -70,16 +80,27 @@ export const getSpecificCourse = async (req, res) => {
       where: {
         slug,
       },
-      include: {
+      select: {
+        title: true,
+        slug: true,
+        description: true,
+        image: true,
+        price: true,
+        totalHours: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
+
         instructor: {
           select: {
-            id: true,
             firstName: true,
             lastName: true,
+            image: true,
           },
         },
       },
     });
+
     // check if the course was found or not
     if (!course) {
       return res.status(404).json({ message: `Course ${slug} was not found` });
@@ -88,6 +109,56 @@ export const getSpecificCourse = async (req, res) => {
     return res
       .status(200)
       .json({ message: `Course ${slug} was successfully found`, course });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+//! -------------------------- ACCESS / GET COURSE CONTENT -----------
+
+export const getCourseContent = async (req, res) => {
+  const { course_slug } = req.params;
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        slug: course_slug,
+      },
+      select: {
+        title: true,
+        slug: true,
+        description: true,
+        image: true,
+        price: true,
+        totalHours: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
+
+        instructor: {
+          select: {
+            firstName: true,
+            lastName: true,
+            image: true,
+          },
+        },
+
+        sections: {
+          include: { lessons: true, assessments: true },
+        },
+      },
+    });
+
+    // check if the course was found or not
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course ${course_slug} was not found` });
+    }
+
+    return res.status(200).json({
+      message: `Course ${course.title} was successfully found`,
+      course,
+    });
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -134,11 +205,20 @@ export const enrollCourse = async (req, res) => {
 //! ----------------- Update Specific Course-----------------------
 
 export const updateACourse = async (req, res) => {
+  const { title } = req.body;
   try {
     const { slug } = req.params;
+
+    let updatedData = req.body;
+    if (title) {
+      updatedData = {
+        ...updatedData,
+        slug: slugify(title).toLowerCase(),
+      };
+    }
     const course = await prisma.course.update({
       where: { slug },
-      data: req.body,
+      data: updatedData,
     });
 
     if (!course) {
