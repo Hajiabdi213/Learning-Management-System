@@ -48,10 +48,10 @@ courseRouter.get(
 
 // all put endpoints
 courseRouter.put("/:slug/enroll", authenticate, enrollCourse); // enrolling a course (admin/instructor/ student)
-courseRouter.put("/:slug", authenticate, isAdminOrInstructor, updateACourse); // updating an specific course (admin)
+courseRouter.put("/:slug", authenticate, isAdmin, updateACourse); // updating an specific course (admin)
 
 courseRouter.put(
-  "/my-courses/:slug",
+  "/my-courses/:course_slug",
   authenticate,
   isCourseCreator,
   updateMyCourse
@@ -60,7 +60,7 @@ courseRouter.put(
 // all delete endpoints
 courseRouter.delete("/:slug", authenticate, isAdmin, deleteACourse); // deleting an specific course (admin)
 courseRouter.delete(
-  "/my-courses/:slug",
+  "/my-courses/:course_slug",
   authenticate,
   isCourseCreator,
   deleteMyCourse

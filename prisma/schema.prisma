@@ -43,9 +43,7 @@ model Course {
   description  String?
   image        String?
   price        Decimal?
-  paid         Boolean          @default(false)
   totalHours   String?
-  enrolls      Int?
   isFeatured   Boolean          @default(false)
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @default(now())
@@ -54,7 +52,7 @@ model Course {
   userId       Int?
   User         User[]
   instructorId Int // Instructor ID
-  instructor   User             @relation("CreatedByUser", fields: [instructorId], references: [id]) // Relationship with the instructor
+  instructor   User             @relation("CreatedByUser", fields: [instructorId], references: [id], onDelete: Cascade) // Relationship with the instructor
   sections     Section[]
 }
 
@@ -93,9 +91,8 @@ model Assessment {
   submissions Submission[]
   student     User?        @relation("OwnedStudent", fields: [studentId], references: [id])
   studentId   Int?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Submission {

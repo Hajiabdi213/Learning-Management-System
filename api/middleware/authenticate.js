@@ -1,7 +1,6 @@
 import Jwt from "jsonwebtoken";
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-
-// authenticate
+// authenticate;
 export const authenticate = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
@@ -24,3 +23,4 @@ export const authenticate = async (req, res, next) => {
     next();
   });
 };
+//

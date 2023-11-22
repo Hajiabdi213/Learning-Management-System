@@ -6,6 +6,18 @@ export const createCourse = async (req, res) => {
   try {
     const { slug, title, instructorId, ...userInput } = req.body;
     const formattedSlug = slugify(title).toLowerCase();
+    // check if the course already exists
+    const course = await prisma.course.findUnique({
+      where: {
+        slug: formattedSlug,
+      },
+    });
+
+    if (course) {
+      return res
+        .status(400)
+        .json({ message: `course with title ( ${title} ) already exists` });
+    }
     const newCourse = await prisma.course.create({
       data: {
         ...userInput,
@@ -208,20 +220,30 @@ export const getMySpecificCourse = async (req, res) => {
 
 export const updateMyCourse = async (req, res) => {
   const { id } = req.decoded;
-  const { slug } = req.params;
+  const { course_slug } = req.params;
+
+  const { title } = req.body;
 
   try {
+    let updatedData = req.body;
+
+    // If title is provided, update slug as well
+    if (title) {
+      updatedData = {
+        ...updatedData,
+        slug: slugify(title).toLowerCase(),
+      };
+    }
     const myCourse = await prisma.course.update({
-      where: { instructorId: id, slug },
-      data: req.body,
+      where: { instructorId: id, slug: course_slug },
+      data: updatedData,
     });
     if (!myCourse) {
       return res.status(404).json({ message: "Course Not Found" });
     }
-
     return res
       .status(200)
-      .json({ message: "Your course updated successfully", myCourse });
+      .json({ message: "You updated the course successfully", myCourse });
   } catch (error) {
     return res.status(500).json({ message: error });
   }
@@ -231,11 +253,11 @@ export const updateMyCourse = async (req, res) => {
 
 export const deleteMyCourse = async (req, res) => {
   const { id } = req.decoded;
-  const { slug } = req.params;
+  const { course_slug } = req.params;
 
   try {
     const myCourse = await prisma.course.delete({
-      where: { instructorId: id, slug },
+      where: { instructorId: id, slug: course_slug },
     });
     if (!myCourse) {
       return res.status(404).json({ message: "Course Not Found" });
@@ -271,7 +293,10 @@ export const getMyEnrolledCourses = async (req, res) => {
       },
     });
 
-    return res.status(200).json(userWithCourse[0].enrolledCourses);
+    return res.status(200).json({
+      message: "The courses you enrolled found",
+      enrolledCourses: userWithCourse[0].enrolledCourses,
+    });
   } catch (error) {
     return res.status(500).json({ message: error });
   }
@@ -310,10 +335,13 @@ export const getSpecificCourseLoggedInUserEnrolled = async (req, res) => {
       const targetCourse = userWithCourse[0].enrolledCourses.find(
         (course) => course.slug === slug
       );
-
+      if (!targetCourse) {
+        return res
+          .status(404)
+          .json({ message: `Course ${slug} that you enrolled was not found` });
+      }
       return res.status(200).json(targetCourse);
     }
-    return res.status(404).json({ message: `Course was not found` });
   } catch (error) {
     return res.status(500).json({ message: error });
   }

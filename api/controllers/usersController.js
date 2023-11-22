@@ -127,6 +127,11 @@ export const getAllUsers = async (req, res) => {
 export const getAllUsersByRole = async (req, res) => {
   const { role } = req.params;
 
+  //check the role first
+  if (!(role === "admin" || role === "student" || role === "instructor")) {
+    return res.status(400).json({ message: "Invalid route " });
+  }
+
   try {
     const users = await prisma.user.findMany({ where: { role: role } });
     if (users) {
