@@ -22,7 +22,7 @@ import {
 
 const assessmentsRouter = express.Router();
 
-// All Get Routes
+//! All Get Routes
 assessmentsRouter.get(
   "/:course_slug/:section_id/assessments",
   authenticate,
@@ -56,7 +56,7 @@ assessmentsRouter.get(
   getMySubmissions
 ); // getting your submissions (only enrolled user)
 
-// POST ROUTES
+//! POST ROUTES
 assessmentsRouter.post(
   "/:course_slug/:section_id/assessments",
   authenticate,
@@ -70,7 +70,7 @@ assessmentsRouter.post(
   submitAnAssessment
 ); // submitting an assessment (student (enrolled student))
 
-// PUT ROUTES
+//! PUT ROUTES
 assessmentsRouter.put(
   "/:course_slug/:section_id/assessments/:assessment_id",
   authenticate,
@@ -84,7 +84,7 @@ assessmentsRouter.put(
   gradeASubmission
 ); // grading a submission (admin, instructor (course creator))
 
-// DELETE ROUTES
+//! DELETE ROUTES
 assessmentsRouter.delete(
   "/:course_slug/:section_id/assessments/:assessment_id",
   authenticate,

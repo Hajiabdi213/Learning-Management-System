@@ -29,10 +29,11 @@ Welcome to the comprehensive API documentation for our Learning Management Syste
    2.5 [Get My Specific Course](#5-get-my-specific-course)
    2.6 [Get All My Enrolled Courses](#6-get-all-my-enrolled-courses)
    2.7 [Get Specific Course Enrolled by Logged-In User](#7-get-specific-course-enrolled-by-logged-in-user)
-   2.8 [Enroll in a Course](#8-enroll-in-a-course)
-   2.9 [Update a Course](#9-update-a-course)
-   2.10 [Delete a Course](#10-delete-a-course)
-   2.11 [Delete My Course](#11-delete-my-course)
+   2.8 [Accessing Course Content](#8-accessing-course-content-enrolled-logged-in-user)
+   2.9 [Enroll in a Course](#9-enroll-in-a-course)
+   2.10 [Update a Course](#10-update-a-course)
+   2.11 [Delete a Course](#11-delete-a-course)
+   2.12 [Delete My Course](#12-delete-my-course)
 
 3. [Course-Section Management](#course-section-management)
    3.1 [Get All Course Sections](#1-get-all-course-sections)
@@ -771,7 +772,43 @@ Status Code: 500 Internal Server Error
     }
     ```
 
-### 8. Enroll in a Course
+### 8. Accessing Course Content (Enrolled logged in user)
+
+#### Route: `GET /:slug/learn`
+
+- **Description:** Retrieves entire course content to a enrolled logged in user (student)
+
+- **Parameters:**
+
+  - `slug` (string): Course slug.
+
+- **Authorization:** Admin, Instructor, or Student
+
+- **Response:**
+
+  - Status Code: 200 OK
+  - Content:
+    ```json
+    {
+      // Course content
+    }
+    ```
+
+- **Error Responses:**
+  - Status Code: 404 Not Found
+    ```json
+    {
+      "message": "Course was not found"
+    }
+    ```
+  - Status Code: 500 Internal Server Error
+    ```json
+    {
+      "message": "{error_message}"
+    }
+    ```
+
+### 9. Enroll in a Course
 
 #### Route: `PUT /:slug/enroll`
 
@@ -804,7 +841,7 @@ Status Code: 500 Internal Server Error
     }
     ```
 
-### 9. Update a Course
+### 10. Update a Course
 
 #### Route: `PUT /:slug`
 
@@ -848,7 +885,7 @@ Status Code: 500 Internal Server Error
     }
     ```
 
-### 10. Delete a Course
+### 11. Delete a Course
 
 #### Route: `DELETE /:slug`
 
@@ -884,7 +921,7 @@ Status Code: 500 Internal Server Error
     }
     ```
 
-### 11. Delete My Course
+### 12. Delete My Course
 
 #### Route: `DELETE /my-courses/:slug`
 
